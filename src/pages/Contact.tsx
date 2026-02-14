@@ -1,13 +1,14 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
+import logoComprec from 'figma:asset/67596b60077a129b8cb18eb43f53b80c352eee3a.png';
 
 export function Contact() {
   const [dadosFormulario, setDadosFormulario] = React.useState({
     nome: '',
     whatsapp: '',
     email: '',
-    cpf: '',
+    esfera: '',
     tipo: '',
     valor: '',
     mensagem: '',
@@ -21,7 +22,7 @@ export function Contact() {
       nome: '',
       whatsapp: '',
       email: '',
-      cpf: '',
+      esfera: '',
       tipo: '',
       valor: '',
       mensagem: '',
@@ -235,20 +236,24 @@ export function Contact() {
                   />
                 </div>
 
+                {/* Novo campo de seleção de Esfera substituindo o CPF */}
                 <div>
-                  <label htmlFor="cpf" className="block text-sm font-semibold text-emerald-900 mb-2">
-                    CPF *
+                  <label htmlFor="esfera" className="block text-sm font-semibold text-emerald-900 mb-2">
+                    Esfera do Precatório *
                   </label>
-                  <input
-                    type="text"
-                    id="cpf"
-                    name="cpf"
-                    value={dadosFormulario.cpf}
+                  <select
+                    id="esfera"
+                    name="esfera"
+                    value={dadosFormulario.esfera}
                     onChange={alterarCampo}
-                    placeholder="000.000.000-00"
                     required
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
-                  />
+                  >
+                    <option value="">Selecione a esfera</option>
+                    <option value="Municipal">Municipal</option>
+                    <option value="Estadual">Estadual</option>
+                    <option value="Federal">Federal</option>
+                  </select>
                 </div>
 
                 <div>
@@ -264,9 +269,8 @@ export function Contact() {
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
                   >
                     <option value="">Selecione uma opção</option>
-                    <option value="federal">Federal</option>
-                    <option value="estadual">Estadual</option>
-                    <option value="municipal">Municipal</option>
+                    <option value="alimentar">Alimentar</option>
+                    <option value="comum">Comum (Não Alimentar)</option>
                     <option value="trabalhista">Trabalhista</option>
                     <option value="previdenciario">Previdenciário</option>
                     <option value="tributario">Tributário</option>
@@ -276,7 +280,7 @@ export function Contact() {
 
                 <div>
                   <label htmlFor="valor" className="block text-sm font-semibold text-emerald-900 mb-2">
-                    Valor a Receber *
+                    Valor a Receber (Estimado) *
                   </label>
                   <input
                     type="text"
