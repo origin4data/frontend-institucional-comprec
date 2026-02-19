@@ -37,6 +37,7 @@ export function Form() {
 
   return (
     <form onSubmit={enviarFormulario} className="space-y-5">
+      {/* Nome Completo */}
       <div>
         <label htmlFor="nome" className="block text-sm font-semibold text-emerald-900 mb-2">
           Nome Completo *
@@ -52,38 +53,42 @@ export function Form() {
           className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="whatsapp" className="block text-sm font-semibold text-emerald-900 mb-2">
-            WhatsApp *
-          </label>
-          <input
-            type="tel"
-            id="whatsapp"
-            name="whatsapp"
-            value={dadosFormulario.whatsapp}
-            onChange={alterarCampo}
-            placeholder="(00) 00000-0000"
-            required
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-emerald-900 mb-2">
-            E-mail *
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={dadosFormulario.email}
-            onChange={alterarCampo}
-            placeholder="seu@email.com"
-            required
-            className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
-          />
-        </div>
+
+      {/* WhatsApp - Removido o grid wrap anterior */}
+      <div>
+        <label htmlFor="whatsapp" className="block text-sm font-semibold text-emerald-900 mb-2">
+          WhatsApp *
+        </label>
+        <input
+          type="tel"
+          id="whatsapp"
+          name="whatsapp"
+          value={dadosFormulario.whatsapp}
+          onChange={alterarCampo}
+          placeholder="(00) 00000-0000"
+          required
+          className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
+        />
       </div>
+
+      {/* E-mail */}
+      <div>
+        <label htmlFor="email" className="block text-sm font-semibold text-emerald-900 mb-2">
+          E-mail *
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={dadosFormulario.email}
+          onChange={alterarCampo}
+          placeholder="seu@email.com"
+          required
+          className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
+        />
+      </div>
+
+      {/* Esfera do Precatório */}
       <div>
         <label htmlFor="esfera" className="block text-sm font-semibold text-emerald-900 mb-2">
           Esfera do Precatório *
@@ -102,6 +107,8 @@ export function Form() {
           <option value="Federal">Federal</option>
         </select>
       </div>
+
+      {/* Tipo de Precatório */}
       <div>
         <label htmlFor="tipo" className="block text-sm font-semibold text-emerald-900 mb-2">
           Tipo de Precatório *
@@ -123,6 +130,8 @@ export function Form() {
           <option value="outro">Outro</option>
         </select>
       </div>
+
+      {/* Valor Estimado */}
       <div>
         <label htmlFor="valor" className="block text-sm font-semibold text-emerald-900 mb-2">
           Valor a Receber (Estimado) *
@@ -138,26 +147,13 @@ export function Form() {
           className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
         />
       </div>
-      <div>
-        <label htmlFor="mensagem" className="block text-sm font-semibold text-emerald-900 mb-2">
-          Mensagem (opcional)
-        </label>
-        <textarea
-          id="mensagem"
-          name="mensagem"
-          value={dadosFormulario.mensagem}
-          onChange={alterarCampo}
-          placeholder="Conte-nos mais sobre seu caso..."
-          rows={4}
-          className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white resize-none"
-        />
-      </div>
+
       <button
         type="submit"
         className="w-full bg-emerald-900 text-white py-4 rounded-lg hover:bg-emerald-800 transition-colors flex items-center justify-center gap-2 font-semibold"
       >
         <Send className="w-5 h-5" />
-        Enviar Mensagem
+        Enviar Consulta
       </button>
     </form>
   );

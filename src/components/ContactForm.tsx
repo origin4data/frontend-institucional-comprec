@@ -1,6 +1,7 @@
 import React from 'react';
 import { Send, MessageCircle, Phone } from 'lucide-react';
 import { motion } from 'motion/react';
+import { Form } from './Form';
 
 export function ContactForm() {
   const [dadosFormulario, setDadosFormulario] = React.useState({
@@ -139,125 +140,7 @@ export function ContactForm() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <form onSubmit={enviarFormulario} className="space-y-3 sm:space-y-5">
-              {/* Nome */}
-              <div>
-                <label htmlFor="nome" className="block text-xs sm:text-sm font-medium text-emerald-900 mb-1 sm:mb-2">
-                  Nome
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="nome"
-                  value={dadosFormulario.nome}
-                  onChange={alterarCampo}
-                  placeholder="Insira seu nome"
-                  required
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-800 focus:border-transparent outline-none transition-all text-sm sm:text-base"
-                />
-              </div>
-
-              {/* WhatsApp */}
-              <div>
-                <label htmlFor="whatsapp" className="block text-xs sm:text-sm font-medium text-emerald-900 mb-1 sm:mb-2">
-                  WhatsApp
-                </label>
-                <input
-                  type="tel"
-                  id="whatsapp"
-                  name="whatsapp"
-                  value={dadosFormulario.whatsapp}
-                  onChange={alterarCampo}
-                  placeholder="(00) 00000-0000"
-                  required
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-800 focus:border-transparent outline-none transition-all text-sm sm:text-base"
-                />
-              </div>
-
-              {/* E-mail */}
-              <div>
-                <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-emerald-900 mb-1 sm:mb-2">
-                  E-mail
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={dadosFormulario.email}
-                  onChange={alterarCampo}
-                  placeholder="Insira seu e-mail"
-                  required
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-800 focus:border-transparent outline-none transition-all text-sm sm:text-base"
-                />
-              </div>
-
-              {/* CPF */}
-              <div>
-                <label htmlFor="cpf" className="block text-xs sm:text-sm font-medium text-emerald-900 mb-1 sm:mb-2">
-                  CPF
-                </label>
-                <input
-                  type="text"
-                  id="cpf"
-                  name="cpf"
-                  value={dadosFormulario.cpf}
-                  onChange={alterarCampo}
-                  placeholder="000.000.000-00"
-                  required
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-800 focus:border-transparent outline-none transition-all text-sm sm:text-base"
-                />
-              </div>
-
-              {/* Tipo de Precatório */}
-              <div>
-                <label htmlFor="tipo" className="block text-xs sm:text-sm font-medium text-emerald-900 mb-1 sm:mb-2">
-                  Tipo de precatório
-                </label>
-                <select
-                  id="tipo"
-                  name="tipo"
-                  value={dadosFormulario.tipo}
-                  onChange={alterarCampo}
-                  required
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-800 focus:border-transparent outline-none transition-all bg-white text-sm sm:text-base"
-                >
-                  <option value="">Selecione</option>
-                  <option value="federal">Federal</option>
-                  <option value="estadual">Estadual</option>
-                  <option value="municipal">Municipal</option>
-                  <option value="trabalhista">Trabalhista</option>
-                  <option value="previdenciario">Previdenciário</option>
-                  <option value="tributario">Tributário</option>
-                  <option value="outro">Outro</option>
-                </select>
-              </div>
-
-              {/* Valor */}
-              <div>
-                <label htmlFor="valor" className="block text-xs sm:text-sm font-medium text-emerald-900 mb-1 sm:mb-2">
-                  Valor à receber
-                </label>
-                <input
-                  type="text"
-                  id="valor"
-                  name="valor"
-                  value={dadosFormulario.valor}
-                  onChange={alterarCampo}
-                  placeholder="R$ 0,00"
-                  required
-                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-800 focus:border-transparent outline-none transition-all text-sm sm:text-base"
-                />
-              </div>
-
-              {/* Botão de Enviar */}
-              <button
-                type="submit"
-                className="w-full bg-emerald-800 text-white py-3 sm:py-4 rounded-lg hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2 text-sm sm:text-lg font-medium"
-              >
-                <Send className="w-4 h-4 sm:w-5 sm:h-5" />
-                Enviar Consulta
-              </button>
-            </form>
+          <Form />
           </motion.div>
         </div>
       </div>
