@@ -34,7 +34,7 @@ export function Benefits() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-emerald-900 mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-gray-900" style={{color: '#48BAB8'}}>
             Nossos Pilares
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
@@ -51,13 +51,22 @@ export function Benefits() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="bg-white border-2 border-gray-200 rounded-xl p-8 hover:border-emerald-900 transition-all"
+              className="bg-white border-2 border-gray-200 rounded-xl p-8 transition-all hover:shadow-lg"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-lg bg-emerald-900 flex items-center justify-center flex-shrink-0">
+                {/* Ajustei o fundo do ícone para combinar com a nova cor dos títulos */}
+                <div 
+                  className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: '#48BAB8' }}
+                >
                   <pilar.icone className="w-6 h-6 text-white" strokeWidth={2} />
                 </div>
-                <h3 className="text-xl font-bold text-emerald-900">
+                
+                {/* Título com a cor aplicada via style inline */}
+                <h3 
+                  className="text-xl font-bold" 
+                  style={{ color: '#48BAB8' }}
+                >
                   {pilar.titulo}
                 </h3>
               </div>
@@ -67,7 +76,7 @@ export function Benefits() {
               </p>
               
               {pilar.destaque && (
-                <p className="text-emerald-900 font-semibold leading-relaxed pt-4 border-t border-gray-200">
+                <p className="font-semibold leading-relaxed pt-4 border-t border-gray-200 text-gray-800">
                   {pilar.destaque}
                 </p>
               )}
