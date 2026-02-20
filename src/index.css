@@ -4,6 +4,9 @@
   @supports (((-webkit-hyphens: none)) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
     *, :before, :after, ::backdrop {
       --tw-translate-x: 0;
+      --hoverPrincipal: #428d8b;
+      --cianoPrincipal: #48BAB8;
+      --backgroundSection: #FDFDFD;
       --tw-translate-y: 0;
       --tw-translate-z: 0;
       --tw-space-y-reverse: 0;
@@ -2023,6 +2026,7 @@
   --comprec-primary: #0b5348;
   --comprec-primary-dark: #083d35;
   --comprec-primary-light: #0d6b5e;
+  --comprec-bg-new: ##48BAB8
 }
 
 .dark {
