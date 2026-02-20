@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { Blog } from './pages/Blog';
+import { Parceiro } from './pages/Partner'; // <-- Atualizado para importar de Partner.tsx
 import { Footer } from './components/Footer';
 
 export default function App() {
@@ -30,6 +31,8 @@ export default function App() {
         return <Contact />;
       case 'blog':
         return <Blog />;
+      case 'parceiro':
+        return <Parceiro />; // Continua a renderizar o componente Parceiro
       default:
         return <Home />;
     }
