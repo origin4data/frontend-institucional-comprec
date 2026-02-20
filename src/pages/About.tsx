@@ -4,11 +4,15 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
+// O @ts-ignore faz o TypeScript parar de dar erro na linha do vídeo
+// @ts-ignore
+import videoEquipe from '../assets/comprecmovie.mp4';
+
 export function About() {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-hidden bg-white">
       
-      {/* CSS Injetado para os hovers seguros */}
+      {/* CSS Injetado para animações */}
       <style>{`
         .hover-card-pilar {
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -19,13 +23,14 @@ export function About() {
         }
       `}</style>
 
-      {/* Seção Hero */}
-      <section className="bg-white py-16 sm:py-24 lg:py-32 border-b-2 border-gray-100">
+      {/* ================= QUEM SOMOS ================= */}
+      <section className="py-16 sm:py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             <h1 
@@ -64,8 +69,8 @@ export function About() {
         </div>
       </section>
 
-      {/* Como Conduzimos */}
-      <section className="py-16 sm:py-24 bg-gray-50">
+      {/* ================= COMO CONDUZIMOS (COM VÍDEO DA EQUIPE) ================= */}
+      <section className="py-16 sm:py-24 bg-gray-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -103,11 +108,17 @@ export function About() {
               transition={{ duration: 0.7 }}
               className="flex justify-center lg:justify-end"
             >
-              <div className="w-full max-w-md">
-                <ImageWithFallback
-                  src="https://i.imgur.com/fCMlrr1.jpeg"
-                  alt="Equipe Comprec"
-                  className="rounded-2xl border-4 border-white shadow-xl w-full h-auto object-cover"
+              <div 
+                className="w-full max-w-md relative rounded-2xl border-4 border-white overflow-hidden bg-gray-100 shadow-xl"
+                style={{ aspectRatio: '4/5' }}
+              >
+                <video 
+                  src={videoEquipe}
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline 
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
             </motion.div>
@@ -115,8 +126,8 @@ export function About() {
         </div>
       </section>
 
-      {/* ================= NOSSOS PILARES (FILTRO SUAVE + HOVER CORRIGIDO) ================= */}
-      <section className="py-16 sm:py-24 bg-white">
+      {/* ================= NOSSOS PILARES (BLINDADOS, ALTOS E MODERNOS) ================= */}
+      <section className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-12 sm:mb-16"
@@ -137,76 +148,68 @@ export function About() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-10">
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
             
-            {/* Pilar 1: Transparência Total */}
+            {/* Pilar 1 */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="group hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm"
+              className="hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm h-full"
             >
-              <div className="w-full h-64 lg:h-72 relative bg-slate-900 overflow-hidden">
-                {/* PRESET SUAVE: Saturação 80%, Contraste 105%. HOVER: Volta tudo ao normal */}
+              {/* shrink-0 impede a imagem de sumir, h-[400px] deixa bem vertical */}
+              <div className="relative w-full h-72 md:h-80 lg:h-[400px] shrink-0 bg-gray-100 border-b border-gray-100">
                 <ImageWithFallback
-                  src="https://i.imgur.com/1P5d6Xe.jpeg"
+                  src="https://i.imgur.com/89kldkv.jpeg"
                   alt="Transparência Total"
-                  className="w-full h-full object-cover object-[center_top] saturate-[.8] contrast-[1.05] transition-all duration-500 group-hover:scale-105 group-hover:saturate-100 group-hover:contrast-100"
+                  className="w-full h-full object-cover object-[center_top]"
                 />
-                {/* CAMADA UNIFICADORA SUAVE: Opacidade 20%. HOVER: Opacidade 0 */}
-                <div 
-                  className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover:opacity-0 pointer-events-none" 
-                  style={{ backgroundColor: '#48bab8', mixBlendMode: 'multiply' }}
-                ></div>
               </div>
 
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
+              {/* flex-grow faz o texto preencher o espaço restante, mantendo os botões/rodapés dos cards alinhados */}
+              <div className="p-6 lg:p-8 flex flex-col flex-grow bg-white">
+                <h3 className="text-xl lg:text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
                   Transparência Total
                 </h3>
-                <div className="space-y-4 text-gray-600 leading-relaxed text-[15px]">
+                <div className="space-y-4 text-gray-600 leading-relaxed text-sm lg:text-[15px]">
                   <p>
                     Atuamos com comunicação clara e objetiva, apresentando prazos, riscos e 
                     possibilidades de forma honesta e acessível.
                   </p>
-                  <p className="font-medium" style={{ color: '#48bab8' }}>
+                  <p className="font-semibold" style={{ color: '#48bab8' }}>
                     Aqui, o cliente entende cada etapa do processo antes de qualquer decisão.
                   </p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Pilar 2: Segurança Jurídica */}
+            {/* Pilar 2 */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="group hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm"
+              className="hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm h-full"
             >
-              <div className="w-full h-64 lg:h-72 relative bg-slate-900 overflow-hidden">
+              <div className="relative w-full h-72 md:h-80 lg:h-[400px] shrink-0 bg-gray-100 border-b border-gray-100">
                 <ImageWithFallback
                   src="https://i.imgur.com/n7oSuHK.jpeg"
                   alt="Segurança Jurídica"
-                  className="w-full h-full object-cover object-[center_top] saturate-[.8] contrast-[1.05] transition-all duration-500 group-hover:scale-105 group-hover:saturate-100 group-hover:contrast-100"
+                  className="w-full h-full object-cover object-[center_top]"
                 />
-                <div 
-                  className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover:opacity-0 pointer-events-none" 
-                  style={{ backgroundColor: '#48bab8', mixBlendMode: 'multiply' }}
-                ></div>
               </div>
 
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
+              <div className="p-6 lg:p-8 flex flex-col flex-grow bg-white">
+                <h3 className="text-xl lg:text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
                   Segurança Jurídica
                 </h3>
-                <div className="space-y-4 text-gray-600 leading-relaxed text-[15px]">
+                <div className="space-y-4 text-gray-600 leading-relaxed text-sm lg:text-[15px]">
                   <p>
                     Todas as operações são conduzidas com rigor técnico, análise criteriosa e 
                     total conformidade legal.
                   </p>
-                  <p className="font-medium" style={{ color: '#48bab8' }}>
+                  <p className="font-semibold" style={{ color: '#48bab8' }}>
                     A segurança jurídica é o que sustenta decisões conscientes e relações de 
                     longo prazo.
                   </p>
@@ -214,31 +217,27 @@ export function About() {
               </div>
             </motion.div>
 
-            {/* Pilar 3: Compromisso */}
+            {/* Pilar 3 */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="group hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm"
+              className="hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm h-full"
             >
-              <div className="w-full h-64 lg:h-72 relative bg-slate-900 overflow-hidden">
+              <div className="relative w-full h-72 md:h-80 lg:h-[400px] shrink-0 bg-gray-100 border-b border-gray-100">
                 <ImageWithFallback
                   src="https://i.imgur.com/NXAYniX.jpeg"
                   alt="Compromisso"
-                  className="w-full h-full object-cover object-[center_top] saturate-[.8] contrast-[1.05] transition-all duration-500 group-hover:scale-105 group-hover:saturate-100 group-hover:contrast-100"
+                  className="w-full h-full object-cover object-[center_top]"
                 />
-                <div 
-                  className="absolute inset-0 transition-opacity duration-500 opacity-20 group-hover:opacity-0 pointer-events-none" 
-                  style={{ backgroundColor: '#48bab8', mixBlendMode: 'multiply' }}
-                ></div>
               </div>
 
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
+              <div className="p-6 lg:p-8 flex flex-col flex-grow bg-white">
+                <h3 className="text-xl lg:text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
                   Compromisso
                 </h3>
-                <div className="space-y-4 text-gray-600 leading-relaxed text-[15px]">
+                <div className="space-y-4 text-gray-600 leading-relaxed text-sm lg:text-[15px]">
                   <p>
                     Atuamos com responsabilidade e dedicação em cada etapa do processo, 
                     assumindo o compromisso de conduzir todas as análises e negociações com 
@@ -252,8 +251,8 @@ export function About() {
         </div>
       </section>
 
-      {/* Seção CTA */}
-      <section className="py-16 sm:py-24" style={{ backgroundColor: '#48bab8' }}>
+      {/* ================= SEÇÃO CTA (LIMPA E SEM VAZAR) ================= */}
+      <section className="py-16 sm:py-24 w-full" style={{ backgroundColor: '#48bab8' }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -261,15 +260,16 @@ export function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
               Transformando Espera em Decisão Segura
             </h2>
-            <p className="text-lg sm:text-xl text-white/90 mb-8 font-medium">
+            <p className="text-lg sm:text-xl mb-4 text-gray-900 font-medium">
               Entre em contato e saiba como podemos ajudar você.
             </p>
+            
             <a
-              href="#contato"
-              className="inline-block bg-white px-10 py-4 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all font-bold text-lg"
+              href="#formulario"
+              className="inline-block bg-white px-8 py-4 rounded-xl shadow-md hover:shadow-lg transition-all font-bold text-lg max-w-full"
               style={{ color: '#48bab8' }}
             >
               Fale com um Consultor
