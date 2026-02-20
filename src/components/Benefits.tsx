@@ -3,7 +3,7 @@ import { pilares } from '../mock/pilares';
 
 export function Benefits() {
   return (
-    <section className="relative bg-gray-50 py-16 sm:py-24 lg:py-32">
+    <section className="relative py-16 sm:py-24 lg:py-32 bg-emerald-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -12,10 +12,10 @@ export function Benefits() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-gray-900" style={{color: '#48BAB8'}}>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 text-white" >
             Nossos Pilares
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-white max-w-3xl mx-auto">
             Orientam a forma como atuamos, atendemos e conduzimos cada processo, 
             garantindo clareza, segurança jurídica e respeito à história de cada cliente.
           </p>
