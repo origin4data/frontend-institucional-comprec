@@ -4,7 +4,8 @@ import logoComprec from 'figma:asset/67596b60077a129b8cb18eb43f53b80c352eee3a.pn
 
 export function Footer() {
   return (
-    <footer className="bg-emerald-950 text-white">
+    <footer className=" text-white"
+    style={{backgroundColor: '#1d7574'}}>
       {/* Seção Principal */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
