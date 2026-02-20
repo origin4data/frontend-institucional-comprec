@@ -2,13 +2,13 @@ import React from 'react';
 import { Send, MessageCircle, Phone } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Form } from './Form';
+import logoWhite from '@/assets/67596b60077a129b8cb18eb43f53b80c352eee3a.png'
 
 export function ContactForm() {
   const [dadosFormulario, setDadosFormulario] = React.useState({
     nome: '',
     whatsapp: '',
     email: '',
-    cpf: '',
     tipo: '',
     valor: '',
   });
@@ -22,7 +22,6 @@ export function ContactForm() {
       nome: '',
       whatsapp: '',
       email: '',
-      cpf: '',
       tipo: '',
       valor: '',
     });
@@ -37,11 +36,14 @@ export function ContactForm() {
   };
 
   return (
-    <section id="contato" className="py-8 sm:py-16 lg:py-20 bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-900 relative overflow-hidden">
+    <section 
+      id="contato" 
+      className="py-8 sm:py-16 lg:py-20 relative overflow-hidden"
+      style={{backgroundColor: '#1d7574'}}
+      >
       {/* Elementos decorativos */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-700 rounded-full blur-3xl opacity-20"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-600 rounded-full blur-3xl opacity-20"></div>
-      
+      <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-700 rounded-full blur-3xl opacity-20" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-600 rounded-full blur-3xl opacity-20" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-start">
           {/* Lado Esquerdo - Informações - Compacto no mobile */}
@@ -125,11 +127,23 @@ export function ContactForm() {
             {/* Informações de contato */}
             <div className="border-t border-white/20 pt-3 sm:pt-6">
               <p className="text-emerald-100 mb-1 sm:mb-2 text-xs sm:text-base">Ou entre em contato:</p>
-              <a href="https://wa.me/5521989822163" target="_blank" rel="noopener noreferrer" className="text-white text-sm sm:text-xl font-semibold hover:text-emerald-100 transition-colors">
+              <a 
+                href="https://wa.me/5521989822163" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white text-sm sm:text-xl font-semibold hover:text-emerald-100 transition-colors"
+              >
                 (21) 98982-2163
               </a>
               <p className="text-emerald-100 text-xs sm:text-base hidden sm:block mt-1">contato@comprec.com.br</p>
             </div>
+            <div className="mt-6">
+              <img 
+                src={logoWhite} 
+                alt="Logo Comprec"
+                style={{ maxWidth: '350px' }}
+              />
+          </div>
           </motion.div>
 
           {/* Lado Direito - Formulário */}
