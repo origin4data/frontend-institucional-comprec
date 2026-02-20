@@ -4,9 +4,15 @@ import heroImage from '@/assets/background-hero.jpg';
 
 export function Hero() {
   return (
-    <section style={{ backgroundColor: '#FDFDFD' }} className="relative overflow-hidden px-4 sm:px-8">
-      <div className="mx-auto max-w-7xl py-8 sm:py-12 lg:py-0">
+    <section 
+      style={{ 
+        background: 'linear-gradient(to bottom, #FDFDFD 88.5%, #F9FAFB 85%)' 
+      }} 
+      className="relative overflow-hidden px-2 sm:px-1.5"
+    >
+      <div className="relative z-10 mx-auto max-w-7xl py-8 sm:py-12 lg:py-0">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 lg:gap-16 md:min-h-[700px] lg:min-h-[800px]">
+          
           <motion.div
             className="flex flex-col justify-center order-2 md:order-1 py-6 sm:py-8 md:py-12 lg:py-20 w-full md:w-auto"
             initial={{ opacity: 0, x: -50 }}
@@ -28,9 +34,7 @@ export function Hero() {
                   href="#contato"
                   whileHover={{ backgroundColor: '#428d8b' }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
-                  style={{
-                    backgroundColor: '#48BAB8',
-                  }}
+                  style={{ backgroundColor: '#48BAB8' }}
                 >
                   Consulte Agora
                 </motion.a>
@@ -46,7 +50,7 @@ export function Hero() {
             <img
               src={heroImage}
               alt="Consultor Comprec"
-              className="h-[350px] sm:h-[450px] md:h-[500px] lg:h-[600px] w-auto object-contain rounded-2xl shadow-xl"
+              className="h-[350px] sm:h-[450px] md:h-[500px] lg:h-[600px] w-auto object-contain drop-shadow-2xl"
             />
           </motion.div>
         </div>
