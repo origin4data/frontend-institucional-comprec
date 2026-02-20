@@ -1,29 +1,26 @@
 import React from 'react';
 import { Send } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export function Form() {
   const [dadosFormulario, setDadosFormulario] = React.useState({
     nome: '',
     whatsapp: '',
     email: '',
-    esfera: '',
     tipo: '',
-    valor: '',
-    mensagem: '',
   });
 
   const enviarFormulario = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Formulário enviado:', dadosFormulario);
     alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+    
+    // Reset do estado limpo
     setDadosFormulario({
       nome: '',
       whatsapp: '',
       email: '',
-      esfera: '',
       tipo: '',
-      valor: '',
-      mensagem: '',
     });
   };
 
@@ -37,7 +34,6 @@ export function Form() {
 
   return (
     <form onSubmit={enviarFormulario} className="space-y-5">
-      {/* Nome Completo */}
       <div>
         <label htmlFor="nome" className="block text-sm font-semibold text-emerald-900 mb-2">
           Nome Completo *
@@ -53,8 +49,6 @@ export function Form() {
           className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
         />
       </div>
-
-      {/* WhatsApp - Removido o grid wrap anterior */}
       <div>
         <label htmlFor="whatsapp" className="block text-sm font-semibold text-emerald-900 mb-2">
           WhatsApp *
@@ -70,8 +64,6 @@ export function Form() {
           className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
         />
       </div>
-
-      {/* E-mail */}
       <div>
         <label htmlFor="email" className="block text-sm font-semibold text-emerald-900 mb-2">
           E-mail *
@@ -87,28 +79,6 @@ export function Form() {
           className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
         />
       </div>
-
-      {/* Esfera do Precatório */}
-      <div>
-        <label htmlFor="esfera" className="block text-sm font-semibold text-emerald-900 mb-2">
-          Esfera do Precatório *
-        </label>
-        <select
-          id="esfera"
-          name="esfera"
-          value={dadosFormulario.esfera}
-          onChange={alterarCampo}
-          required
-          className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
-        >
-          <option value="">Selecione a esfera</option>
-          <option value="Municipal">Municipal</option>
-          <option value="Estadual">Estadual</option>
-          <option value="Federal">Federal</option>
-        </select>
-      </div>
-
-      {/* Tipo de Precatório */}
       <div>
         <label htmlFor="tipo" className="block text-sm font-semibold text-emerald-900 mb-2">
           Tipo de Precatório *
@@ -121,40 +91,24 @@ export function Form() {
           required
           className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
         >
-          <option value="">Selecione uma opção</option>
-          <option value="alimentar">Alimentar</option>
-          <option value="comum">Comum (Não Alimentar)</option>
-          <option value="trabalhista">Trabalhista</option>
-          <option value="previdenciario">Previdenciário</option>
-          <option value="tributario">Tributário</option>
-          <option value="outro">Outro</option>
+          <option value="">Selecione o tipo</option>
+          <option value="Municipal">Municipal</option>
+          <option value="Estadual">Estadual</option>
+          <option value="Federal">Federal</option>
         </select>
       </div>
-
-      {/* Valor Estimado */}
-      <div>
-        <label htmlFor="valor" className="block text-sm font-semibold text-emerald-900 mb-2">
-          Valor a Receber (Estimado) *
-        </label>
-        <input
-          type="text"
-          id="valor"
-          name="valor"
-          value={dadosFormulario.valor}
-          onChange={alterarCampo}
-          placeholder="R$ 0,00"
-          required
-          className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-emerald-900 outline-none transition-all bg-white"
-        />
-      </div>
-
-      <button
+      <motion.button
         type="submit"
-        className="w-full bg-emerald-900 text-white py-4 rounded-lg hover:bg-emerald-800 transition-colors flex items-center justify-center gap-2 font-semibold"
+        className="w-full text-white py-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-semibold"
+        style={{
+          backgroundColor: '#48BAB8',
+        }}
+        whileHover={{ backgroundColor: '#428d8b' }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
       >
         <Send className="w-5 h-5" />
         Enviar Consulta
-      </button>
+      </motion.button>
     </form>
   );
 }
