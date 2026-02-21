@@ -21,13 +21,16 @@ export function Hero() {
                 Especialistas em consultoria e antecipação de precatórios.
                 Transforme seu direito em dinheiro agora, com transparência e agilidade.
               </p>
-              <div className="flex items-center justify-center md:justify-start">
+             <div className="flex items-center justify-center md:justify-start w-full">
                 <motion.a
-                  className="inline-block text-white px-8 py-3 sm:py-4 sm:px-12 rounded-xl transition-all text-sm sm:text-base font-semibold shadow-md"
+                  className="inline-block sm:w-80 text-center text-white py-3 sm:py-4 rounded-xl transition-all text-sm sm:text-base font-semibold shadow-md"
                   href="#contato"
                   whileHover={{ backgroundColor: '#428d8b' }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
-                  style={{ backgroundColor: '#48BAB8' }}
+                  style={{ 
+                    backgroundColor: '#48BAB8', 
+                    width: '50%'
+                  }}
                 >
                   Consulte Agora
                 </motion.a>

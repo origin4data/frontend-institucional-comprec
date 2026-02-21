@@ -6,7 +6,7 @@ export function Benefits() {
     <section style={{ 
       paddingTop: '80px',
       paddingBottom: '80px', 
-    }} className="relative bg-gray-50 pb-16 pt-24 sm:pb-24 sm:pt-32 md:pt-40 lg:pb-32 lg:pt-48 z-0">
+    }} className="relative bg-emerald-900 pb-16 pt-24 sm:pb-24 sm:pt-32 md:pt-40 lg:pb-32 lg:pt-48 z-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -15,15 +15,14 @@ export function Benefits() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-gray-900" style={{color: '#48BAB8'}}>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-white">
             Nossos Pilares
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-white max-w-3xl mx-auto">
             Orientam a forma como atuamos, atendemos e conduzimos cada processo, 
             garantindo clareza, segurança jurídica e respeito à história de cada cliente.
           </p>
         </motion.div>
-        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {pilares.map((pilar, index) => (
             <motion.div

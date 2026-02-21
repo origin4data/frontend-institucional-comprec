@@ -121,11 +121,14 @@ export function Testimonials() {
                           <p className="text-sm text-gray-600">{depoimento.cargo}</p>
                         </div>
                       </div>
-
                       {/* Estrelas */}
                       <div className="flex gap-1 mb-4">
                         {[...Array(depoimento.avaliacao)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 fill-emerald-900 text-emerald-900" strokeWidth={1.5} />
+                          <Star 
+                            key={i} 
+                            className="w-5 h-5 text-yellow-900 fill-yellow-500" 
+                            strokeWidth={1.5} 
+                          />
                         ))}
                       </div>
 
