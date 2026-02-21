@@ -3,7 +3,14 @@ import { pilares } from '../mock/pilares';
 
 export function Benefits() {
   return (
+<<<<<<< HEAD
     <section className="relative py-16 sm:py-24 lg:py-32 bg-emerald-900">
+=======
+    <section style={{ 
+      paddingTop: '80px',
+      paddingBottom: '80px', 
+    }} className="relative bg-gray-50 pb-16 pt-24 sm:pb-24 sm:pt-32 md:pt-40 lg:pb-32 lg:pt-48 z-0">
+>>>>>>> f3efb69bc3568f5b5a97b4bd8a0bbee85353d408
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -20,7 +27,8 @@ export function Benefits() {
             garantindo clareza, segurança jurídica e respeito à história de cada cliente.
           </p>
         </motion.div>
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {pilares.map((pilar, index) => (
             <motion.div
               key={index}
