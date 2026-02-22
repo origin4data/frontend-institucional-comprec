@@ -36,7 +36,7 @@ export function Benefits() {
             >
               <div className="flex items-center gap-4 mb-6">
                 <div 
-                  className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                  className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0"
                   style={{ backgroundColor: '#48BAB8' }}
                 >
                   <pilar.icone className="w-6 h-6 text-white" strokeWidth={2} />
