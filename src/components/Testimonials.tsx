@@ -47,7 +47,7 @@ export function Testimonials() {
   };
 
   return (
-    <section className="py-16 sm:py-24 lg:py-32 bg-white">
+    <section className="py-16 sm:py-24 lg:py-32 bg-[#FDFDFD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-12 sm:mb-16"
@@ -56,8 +56,7 @@ export function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-emerald-900 mb-4 sm:mb-6" 
-              style={{ color: '#48BAB8' }}
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#48BAB8]" 
             >
             O que Nossos Clientes Dizem
           </h2>
@@ -65,31 +64,23 @@ export function Testimonials() {
             Histórias reais de quem confiou em nossos serviços
           </p>
         </motion.div>
-
         <div className="relative">
-          {/* Botão Anterior */}
           <button
             onClick={voltarAnterior}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-emerald-900 hover:bg-emerald-800 text-white p-3 rounded-full transition-all -translate-x-4 hidden md:flex items-center justify-center"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hover:bg-emerald-800 text-white p-3 rounded-full transition-all -translate-x-4 hidden md:flex items-center justify-center bg-[#48BAB8] cursor-pointer"
             aria-label="Anterior"
-            style={{ backgroundColor: '#48BAB8' }}
           >
             <ChevronLeft className="w-6 h-6" strokeWidth={2} />
           </button>
-
-          {/* Botão Próximo */}
           <button
             onClick={avancarProximo}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-emerald-900 hover:bg-emerald-800 text-white p-3 rounded-full transition-all translate-x-4 hidden md:flex items-center justify-center"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hover:bg-emerald-800 text-white p-3 rounded-full transition-all translate-x-4 hidden md:flex items-center justify-center bg-[#48BAB8] cursor-pointer"
             aria-label="Próximo"
-            style={{ backgroundColor: '#48BAB8' }}
           >
             <ChevronRight className="w-6 h-6" strokeWidth={2} />
           </button>
-
-          {/* Container do Carrossel */}
           <div className="overflow-hidden px-2 sm:px-4 md:px-16">
-            <div className="relative min-h-[320px] sm:min-h-[360px]">
+            <div className="relative min-h-80 sm:min-h-90">
               <AnimatePresence initial={false} custom={direcao} mode="wait">
                 <motion.div
                   key={indiceAtual}
@@ -109,7 +100,6 @@ export function Testimonials() {
                       key={`${indiceAtual}-${indice}`}
                       className="bg-white border-2 border-gray-200 p-6 sm:p-8 rounded-xl hover:border-emerald-900 transition-all h-full"
                     >
-                      {/* Foto e informações */}
                       <div className="flex items-center mb-6">
                         <ImageWithFallback
                           src={depoimento.imagem}
@@ -121,18 +111,15 @@ export function Testimonials() {
                           <p className="text-sm text-gray-600">{depoimento.cargo}</p>
                         </div>
                       </div>
-                      {/* Estrelas */}
                       <div className="flex gap-1 mb-4">
                         {[...Array(depoimento.avaliacao)].map((_, i) => (
                           <Star 
                             key={i} 
-                            className="w-5 h-5 text-yellow-900 fill-yellow-500" 
+                            className="w-5 h-5 text-yellow-500 fill-yellow-500" 
                             strokeWidth={1.5} 
                           />
                         ))}
                       </div>
-
-                      {/* Texto do depoimento */}
                       <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                         "{depoimento.texto}"
                       </p>
@@ -142,8 +129,6 @@ export function Testimonials() {
               </AnimatePresence>
             </div>
           </div>
-
-          {/* Indicadores de Pontos */}
           <div className="flex justify-center gap-2 mt-8 sm:mt-12">
             {[...Array(totalPontos)].map((_, indice) => (
               <button
@@ -154,15 +139,13 @@ export function Testimonials() {
                 }}
                 className={`rounded-full transition-all duration-300 ${
                   indice === pontoAtual
-                    ? 'bg-emerald-900 w-8 h-3'
+                    ? 'bg-[#48BAB8] w-8 h-3'
                     : 'bg-gray-300 hover:bg-gray-400 w-3 h-3'
                 }`}
                 aria-label={`Ir para slide ${indice + 1}`}
               />
             ))}
           </div>
-
-          {/* Botões de Navegação Mobile */}
           <div className="flex justify-center gap-4 mt-6 md:hidden">
             <button
               onClick={voltarAnterior}
