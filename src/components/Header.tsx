@@ -15,7 +15,6 @@ export function Header({ paginaAtual }: HeaderProps) {
   const linksNavegacao = [
     { href: '#home', label: 'Home', id: 'home' },
     { href: '#sobre', label: 'Quem Somos', id: 'sobre' },
-    { href: '#contato', label: 'Contato', id: 'contato' },
     { href: '#blog', label: 'Blog', id: 'blog' },
     { href: '#parceiro', label: 'Parceiro', id: 'parceiro' },
   ];
