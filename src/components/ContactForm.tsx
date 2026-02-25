@@ -1,23 +1,51 @@
+"use client";
+
 import React, { useState } from 'react';
-import { Send, MessageCircle, Phone } from 'lucide-react';
+import { Send, MessageCircle, Phone, CheckCircle, X } from 'lucide-react';
 import { motion } from 'motion/react';
-import { Form } from './Form';
 import logoWhite from '@/assets/67596b60077a129b8cb18eb43f53b80c352eee3a.png';
+
+// Importações do React Hook Form e Zod
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+// Importando os componentes do seu arquivo form.tsx
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+
+// 1. Criando o Schema do Zod
+const schemaContato = z.object({
+  nome: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres.'),
+  email: z.string().email('Por favor, insira um e-mail válido (ex: nome@gmail.com).'),
+  whatsapp: z.string().refine((val) => {
+    const apenasNumeros = val.replace(/\D/g, '');
+    return apenasNumeros.length === 10 || apenasNumeros.length === 11;
+  }, 'Por favor, insira um WhatsApp válido com DDD.'),
+  tipo: z.string().optional(), // Campo de tipo de precatório de volta aqui
+});
+
+// Tipagem baseada no schema
+type FormValues = z.infer<typeof schemaContato>;
 
 export function ContactForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const [dadosFormulario, setDadosFormulario] = useState({
-    nome: '',
-    whatsapp: '',
-    email: '',
-    tipo: '',
-    valor: '',
+  const [showModal, setShowModal] = useState(false);
+
+  // 2. Inicializando o React Hook Form
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schemaContato),
+    defaultValues: {
+      nome: '',
+      whatsapp: '',
+      email: '',
+      tipo: '',
+    },
   });
 
   const N8N_WEBHOOK_URL = 'https://webhooks.origindata.com.br/webhook/comprec';
 
-  const enviarFormulario = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // 3. Função de envio
+  const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
 
     try {
@@ -26,22 +54,15 @@ export function ContactForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(dadosFormulario),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
         throw new Error('Falha na comunicação com o servidor.');
       }
 
-      alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-      
-      setDadosFormulario({
-        nome: '',
-        whatsapp: '',
-        email: '',
-        tipo: '',
-        valor: '',
-      });
+      setShowModal(true);
+      form.reset(); // Limpa o formulário automaticamente
       
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
@@ -49,14 +70,6 @@ export function ContactForm() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const alterarCampo = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setDadosFormulario((anterior) => ({
-      ...anterior,
-      [name]: value,
-    }));
   };
 
   return (
@@ -69,6 +82,7 @@ export function ContactForm() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-start">
           
+          {/* ========== PAINEL ESQUERDO ========== */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -94,13 +108,7 @@ export function ContactForm() {
             </p>
             
             <div className="space-y-2 sm:space-y-4 mb-4 sm:mb-8">
-              <motion.div 
-                className="flex items-start gap-2 sm:gap-3"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
+              <motion.div className="flex items-start gap-2 sm:gap-3" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
                 <div className="bg-white/20 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg shrink-0">
                   <Phone className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
@@ -109,13 +117,7 @@ export function ContactForm() {
                   <p className="text-emerald-100 text-xs sm:text-base hidden sm:block">Retorno em até 24 horas úteis</p>
                 </div>
               </motion.div>
-              <motion.div 
-                className="flex items-start gap-2 sm:gap-3"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
+              <motion.div className="flex items-start gap-2 sm:gap-3" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }}>
                 <div className="bg-white/20 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg shrink-0">
                   <MessageCircle className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
@@ -124,13 +126,7 @@ export function ContactForm() {
                   <p className="text-emerald-100 text-xs sm:text-base hidden sm:block">Sem compromisso, tire suas dúvidas</p>
                 </div>
               </motion.div>
-              <motion.div 
-                className="flex items-start gap-2 sm:gap-3"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              >
+              <motion.div className="flex items-start gap-2 sm:gap-3" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5 }}>
                 <div className="bg-white/20 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg shrink-0">
                   <Send className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
@@ -142,29 +138,16 @@ export function ContactForm() {
             </div>
             <div className="border-t border-white/20 pt-3 sm:pt-6">
               <p className="text-emerald-100 mb-1 sm:mb-2 text-xs sm:text-base">Ou entre em contato:</p>
-              <a 
-                href="https://wa.me/5521989822163" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-white text-sm sm:text-xl font-semibold hover:text-[#48BAB8] transition-colors"
-              >
+              <a href="https://wa.me/5521989822163" target="_blank" rel="noopener noreferrer" className="text-white text-sm sm:text-xl font-semibold hover:text-[#48BAB8] transition-colors">
                 (21) 98982-2163
               </a>
-              <p 
-                className="text-emerald-100 text-xs sm:text-base hidden sm:block mt-1 hover:text-[#48BAB8] transition-colors">
-                  <a href="mailto:comprecativos@gmail.com" target="_blank" rel="noopener noreferrer">
-                    comprecativos@gmail.com
-                  </a>
-              </p>
             </div>
             <div className="mt-6">
-              <img 
-                src={logoWhite} 
-                alt="Logo Comprec"
-                style={{ maxWidth: '350px' }}
-              />
-          </div>
+              <img src={logoWhite} alt="Logo Comprec" style={{ maxWidth: '350px' }} />
+            </div>
           </motion.div>
+          
+          {/* ========== PAINEL DIREITO (FORMULÁRIO REACT HOOK FORM) ========== */}
           <motion.div 
             className="bg-white p-4 sm:p-8 md:p-10 rounded-2xl shadow-2xl order-1 lg:order-2"
             initial={{ opacity: 0, x: 50 }}
@@ -172,15 +155,165 @@ export function ContactForm() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <Form 
-              dados={dadosFormulario}
-              onChange={alterarCampo}
-              onSubmit={enviarFormulario}
-              isLoading={isLoading}
-            />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                
+                {/* Campo Nome */}
+                <FormField
+                  control={form.control}
+                  name="nome"
+                  render={({ field }: any) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold text-gray-700">Nome completo *</FormLabel>
+                      <FormControl>
+                        <input 
+                          name={field.name}
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
+                          ref={field.ref}
+                          disabled={isLoading}
+                          placeholder="Seu nome"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm shadow-sm transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none disabled:opacity-60"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Campo Email */}
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }: any) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold text-gray-700">E-mail *</FormLabel>
+                      <FormControl>
+                        <input 
+                          type="email"
+                          name={field.name}
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
+                          ref={field.ref}
+                          disabled={isLoading}
+                          placeholder="email@exemplo.com"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm shadow-sm transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none disabled:opacity-60"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Campo WhatsApp */}
+                <FormField
+                  control={form.control}
+                  name="whatsapp"
+                  render={({ field }: any) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold text-gray-700">WhatsApp *</FormLabel>
+                      <FormControl>
+                        <input 
+                          type="tel"
+                          name={field.name}
+                          value={field.value}
+                          onBlur={field.onBlur}
+                          ref={field.ref}
+                          disabled={isLoading}
+                          placeholder="(00) 00000-0000"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm shadow-sm transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none disabled:opacity-60"
+                          onChange={(e) => {
+                            let value = e.target.value.replace(/\D/g, '');
+                            value = value.substring(0, 11);
+                            if (value.length > 2) value = `(${value.substring(0, 2)}) ${value.substring(2)}`;
+                            if (value.length > 9) value = `${value.substring(0, 10)}-${value.substring(10)}`;
+                            else if (value.length > 8) value = `${value.substring(0, 9)}-${value.substring(9)}`;
+                            
+                            field.onChange(value);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Campo Tipo de Precatório */}
+                <FormField
+                  control={form.control}
+                  name="tipo"
+                  render={({ field }: any) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold text-gray-700">Tipo de Precatório</FormLabel>
+                      <FormControl>
+                        <select
+                          name={field.name}
+                          value={field.value}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
+                          ref={field.ref}
+                          disabled={isLoading}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm shadow-sm transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none disabled:opacity-60"
+                        >
+                          <option value="" disabled>Selecione uma opção</option>
+                          <option value="Federal">Federal</option>
+                          <option value="Estadual">Estadual</option>
+                          <option value="Municipal">Municipal</option>
+                          <option value="Não sei informar">Não sei informar</option>
+                        </select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full bg-emerald-600 text-white font-semibold py-4 px-4 rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-70 flex items-center justify-center gap-2 mt-4"
+                >
+                  <Send className="w-5 h-5" />
+                  {isLoading ? 'Enviando...' : 'Enviar Consulta'}
+                </button>
+              </form>
+            </Form>
           </motion.div>
         </div>
       </div>
+
+      {/* ========== MODAL DE SUCESSO ========== */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full relative shadow-2xl text-center"
+          >
+            <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors">
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600" />
+            </div>
+
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+              Formulário Enviado!
+            </h3>
+            <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 leading-relaxed">
+              Recebemos suas informações com sucesso. Agora é só aguardar, a equipe da <strong>Comprec</strong> entrará em contato com você em breve.
+            </p>
+
+            <button onClick={() => setShowModal(false)} className="w-full bg-emerald-600 text-white font-semibold py-3 px-4 rounded-xl hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-600/20">
+              Entendi
+            </button>
+          </motion.div>
+        </div>
+      )}
     </section>
   );
 }
