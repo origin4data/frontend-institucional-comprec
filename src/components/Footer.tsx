@@ -105,7 +105,7 @@ export function Footer() {
                 <p className="text-white font-medium text-xs mb-1">E-mail</p>
                 <a href="mailto:contato@comprec.com.br" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2">
                   <Mail className="w-4 h-4 text-white" />
-                  contato@comprec.com.br
+                  comprecativos@gmail.com
                 </a>
               </li>
               <li>

@@ -152,8 +152,8 @@ export function ContactForm() {
               </a>
               <p 
                 className="text-emerald-100 text-xs sm:text-base hidden sm:block mt-1 hover:text-[#48BAB8] transition-colors">
-                  <a href="mailto:contato@comprec.com.br" target="_blank" rel="noopener noreferrer">
-                    comprecativos@gmail.co
+                  <a href="mailto:comprecativos@gmail.com" target="_blank" rel="noopener noreferrer">
+                    comprecativos@gmail.com
                   </a>
               </p>
             </div>
