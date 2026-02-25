@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
 import { depoimentos } from '../mock/depoimentos';
 
 export function Testimonials() {
@@ -56,8 +55,7 @@ export function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#48BAB8]" 
-            >
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-[#48BAB8]">
             O que Nossos Clientes Dizem
           </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
@@ -67,20 +65,20 @@ export function Testimonials() {
         <div className="relative">
           <button
             onClick={voltarAnterior}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hover:bg-emerald-800 text-white p-3 rounded-full transition-all -translate-x-4 hidden md:flex items-center justify-center bg-[#48BAB8] cursor-pointer"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hover:bg-[#428d8b] text-white p-3 rounded-full transition-all -translate-x-4 hidden md:flex items-center justify-center bg-[#48BAB8] cursor-pointer"
             aria-label="Anterior"
           >
             <ChevronLeft className="w-6 h-6" strokeWidth={2} />
           </button>
           <button
             onClick={avancarProximo}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hover:bg-emerald-800 text-white p-3 rounded-full transition-all translate-x-4 hidden md:flex items-center justify-center bg-[#48BAB8] cursor-pointer"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hover:bg-[#428d8b] text-white p-3 rounded-full transition-all translate-x-4 hidden md:flex items-center justify-center bg-[#48BAB8] cursor-pointer"
             aria-label="Próximo"
           >
             <ChevronRight className="w-6 h-6" strokeWidth={2} />
           </button>
           <div className="overflow-hidden px-2 sm:px-4 md:px-16">
-            <div className="relative min-h-80 sm:min-h-90">
+            <div className="relative min-h-70 sm:min-h-80">
               <AnimatePresence initial={false} custom={direcao} mode="wait">
                 <motion.div
                   key={indiceAtual}
@@ -98,19 +96,12 @@ export function Testimonials() {
                   {depoimentosVisiveis.map((depoimento, indice) => (
                     <div
                       key={`${indiceAtual}-${indice}`}
-                      className="bg-white border-2 border-gray-200 p-6 sm:p-8 rounded-xl hover:border-emerald-900 transition-all h-full"
+                      className="bg-white border border-gray-200 p-6 sm:p-8 rounded-xl hover:shadow-lg transition-all h-full flex flex-col min-h-70 md:min-h-80"
                     >
-                      <div className="flex items-center mb-6">
-                        <ImageWithFallback
-                          src={depoimento.imagem}
-                          alt={depoimento.nome}
-                          className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover"
-                        />
-                        <div className="ml-4">
-                          <h3 className="font-bold text-emerald-900 text-base sm:text-lg">{depoimento.nome}</h3>
-                          <p className="text-sm text-gray-600">{depoimento.cargo}</p>
-                        </div>
-                      </div>
+                      <h3 className="font-bold text-[#0A2640] text-lg sm:text-xl mb-4">
+                        {depoimento.nome}
+                      </h3>
+                      
                       <div className="flex gap-1 mb-4">
                         {[...Array(depoimento.avaliacao)].map((_, i) => (
                           <Star 
@@ -120,7 +111,7 @@ export function Testimonials() {
                           />
                         ))}
                       </div>
-                      <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+                      <p className="text-gray-600 leading-relaxed text-sm sm:text-base italic">
                         "{depoimento.texto}"
                       </p>
                     </div>
@@ -149,14 +140,14 @@ export function Testimonials() {
           <div className="flex justify-center gap-4 mt-6 md:hidden">
             <button
               onClick={voltarAnterior}
-              className="bg-emerald-900 hover:bg-emerald-800 text-white p-3 rounded-full transition-all"
+              className="bg-[#48BAB8] hover:bg-[#428d8b] text-white p-3 rounded-full transition-all"
               aria-label="Anterior"
             >
               <ChevronLeft className="w-5 h-5" strokeWidth={2} />
             </button>
             <button
               onClick={avancarProximo}
-              className="bg-emerald-900 hover:bg-emerald-800 text-white p-3 rounded-full transition-all"
+              className="bg-[#48BAB8] hover:bg-[#428d8b] text-white p-3 rounded-full transition-all"
               aria-label="Próximo"
             >
               <ChevronRight className="w-5 h-5" strokeWidth={2} />
