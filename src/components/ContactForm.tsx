@@ -14,7 +14,7 @@ export function ContactForm() {
     valor: '',
   });
 
-  const N8N_WEBHOOK_URL = 'SUA_URL_DO_WEBHOOK_AQUI';
+  const N8N_WEBHOOK_URL = 'https://webhooks.origindata.com.br/webhook/comprec';
 
   const enviarFormulario = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +86,6 @@ export function ContactForm() {
               <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="font-medium text-xs sm:text-base">Atendimento Especializado</span>
             </motion.div>
-
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-2 sm:mb-6">
               Fale com Nossos Consultores
             </h2>
@@ -110,7 +109,6 @@ export function ContactForm() {
                   <p className="text-emerald-100 text-xs sm:text-base hidden sm:block">Retorno em até 24 horas úteis</p>
                 </div>
               </motion.div>
-
               <motion.div 
                 className="flex items-start gap-2 sm:gap-3"
                 initial={{ opacity: 0, x: -20 }}
@@ -126,7 +124,6 @@ export function ContactForm() {
                   <p className="text-emerald-100 text-xs sm:text-base hidden sm:block">Sem compromisso, tire suas dúvidas</p>
                 </div>
               </motion.div>
-
               <motion.div 
                 className="flex items-start gap-2 sm:gap-3"
                 initial={{ opacity: 0, x: -20 }}
@@ -143,7 +140,6 @@ export function ContactForm() {
                 </div>
               </motion.div>
             </div>
-
             <div className="border-t border-white/20 pt-3 sm:pt-6">
               <p className="text-emerald-100 mb-1 sm:mb-2 text-xs sm:text-base">Ou entre em contato:</p>
               <a 
@@ -157,7 +153,7 @@ export function ContactForm() {
               <p 
                 className="text-emerald-100 text-xs sm:text-base hidden sm:block mt-1 hover:text-[#48BAB8] transition-colors">
                   <a href="mailto:contato@comprec.com.br" target="_blank" rel="noopener noreferrer">
-                    contato@comprec.com.br
+                    comprecativos@gmail.co
                   </a>
               </p>
             </div>
@@ -169,7 +165,6 @@ export function ContactForm() {
               />
           </div>
           </motion.div>
-
           <motion.div 
             className="bg-white p-4 sm:p-8 md:p-10 rounded-2xl shadow-2xl order-1 lg:order-2"
             initial={{ opacity: 0, x: 50 }}
@@ -177,7 +172,6 @@ export function ContactForm() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            {/* Repassando as propriedades exigidas pelo componente filho */}
             <Form 
               dados={dadosFormulario}
               onChange={alterarCampo}
