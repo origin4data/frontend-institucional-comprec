@@ -19,7 +19,6 @@ export function Header({ paginaAtual }: HeaderProps) {
     { href: '#parceiro', label: 'Parceiro', id: 'parceiro' },
   ];
 
-  // Detectar scroll para mudar transparência
   React.useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -33,7 +32,6 @@ export function Header({ paginaAtual }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevenir scroll quando o menu está aberto
   React.useEffect(() => {
     if (menuMobilAberto) {
       document.body.style.overflow = 'hidden';
@@ -46,7 +44,6 @@ export function Header({ paginaAtual }: HeaderProps) {
     };
   }, [menuMobilAberto]);
 
-  // Fechar menu ao mudar de página
   React.useEffect(() => {
     setMenuMobilAberto(false);
   }, [paginaAtual]);
@@ -59,15 +56,12 @@ export function Header({ paginaAtual }: HeaderProps) {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo - Esquerda */}
-          <div className="flex-shrink-0 ml-2 md:ml-0">
+          <div className="shrink-0 ml-2 md:ml-0">
             <a href="#home" className="flex items-center gap-3">
               <img src={logoComprec} alt="Comprec" className="h-8 w-auto" />
               <img src={logoComprecTexto} alt="Comprec" className="h-6 w-auto hidden md:block" />
             </a>
           </div>
-
-          {/* Navegação Desktop - Centro */}
           <div className="hidden md:flex items-center space-x-8">
             {linksNavegacao.map((link) => (
               <a
@@ -83,20 +77,19 @@ export function Header({ paginaAtual }: HeaderProps) {
               </a>
             ))}
           </div>
-
-          {/* Botão CTA Desktop - Direita */}
           <div className="hidden md:block">
+            {/* REFATORADO: Redirecionamento interno para o ID #contato */}
             <a
-              href="https://wa.me/5521989822163?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20precatórios"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-emerald-800 text-white px-6 py-2 rounded-lg hover:bg-emerald-900 transition-colors"
+              href="#contato"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="bg-emerald-800 text-white px-6 py-2 rounded-lg hover:bg-emerald-900 transition-colors cursor-pointer"
             >
               Fale Conosco
             </a>
           </div>
-
-          {/* Botão menu mobile */}
           <div className="md:hidden">
             <button
               onClick={() => setMenuMobilAberto(!menuMobilAberto)}
@@ -130,12 +123,9 @@ export function Header({ paginaAtual }: HeaderProps) {
           </div>
         </div>
       </nav>
-
-      {/* Overlay do Menu Mobile */}
       <AnimatePresence>
         {menuMobilAberto && (
           <>
-            {/* Backdrop escuro */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -144,8 +134,6 @@ export function Header({ paginaAtual }: HeaderProps) {
               onClick={() => setMenuMobilAberto(false)}
               className="fixed inset-0 bg-black/50 z-40 md:hidden"
             />
-
-            {/* Menu deslizante de cima para baixo */}
             <motion.div
               initial={{ y: '-100%' }}
               animate={{ y: 0 }}
@@ -173,14 +161,18 @@ export function Header({ paginaAtual }: HeaderProps) {
                     </motion.a>
                   ))}
                 </div>
-
+                {/* REFATORADO: Adicionado e.preventDefault() e setMenuMobilAberto(false) para fechar o menu ao clicar */}
                 <motion.a
                   href="#contato"
-                  onClick={() => setMenuMobilAberto(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMenuMobilAberto(false);
+                    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.3 }}
-                  className="mt-4 block bg-emerald-800 text-white px-6 py-3 rounded-lg hover:bg-emerald-900 transition-colors text-center font-medium"
+                  className="mt-4 block bg-emerald-800 text-white px-6 py-3 rounded-lg hover:bg-emerald-900 transition-colors text-center font-medium cursor-pointer"
                 >
                   Fale Conosco
                 </motion.a>

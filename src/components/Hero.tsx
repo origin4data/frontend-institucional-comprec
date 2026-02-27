@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
-import heroImage from '@/assets/background-hero.jpg';
+import heroImage from '@/assets/background-hero.png';
+import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
   return (
@@ -13,30 +14,24 @@ export function Hero() {
             transition={{ duration: 0.8 }}
           >
             <div className="max-w-xl mx-auto md:mx-0 text-center md:text-left">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight">
                 Antecipe seus <span className='text-[#48BAB8]'>Precatórios</span> com Segurança
               </h2>
               <p className="text-base md:text-lg text-gray-700 mb-6 sm:mb-8 leading-relaxed">
                 Especialistas em consultoria e antecipação de precatórios.
                 Transforme seu direito em dinheiro agora, com transparência e agilidade.
               </p>
-              <div className="flex items-center justify-center md:justify-start w-full">
-                <motion.a
-                  className="inline-block sm:w-80 text-center text-white py-3 sm:py-4 rounded-xl transition-all text-sm sm:text-base font-semibold shadow-md bg-[#48BAB8] hover:bg-[#428d8b] w-[50%] cursor-pointer"
-                  href="#contato"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById('contato')?.scrollIntoView({ 
-                      behavior: 'smooth',
-                      block: 'start' 
-                    });
-                  }}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                >
-                  Consulte Agora
-                </motion.a>
-              </div>
+              <div>
+              <button
+                type="button"
+                onClick={() => document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-flex items-center justify-center gap-3 text-white px-8 py-3 rounded-xl hover:brightness-110 transition-all font-bold text-lg shadow-lg hover:-translate-y-1 w-fit"
+                style={{backgroundColor: '#48bab8'}}
+              >
+                Indicar um Processo
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
             </div>
           </motion.div>
           <motion.div

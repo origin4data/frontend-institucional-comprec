@@ -1,4 +1,3 @@
-import React from 'react';
 import { Scale, BadgeDollarSign, HandCoins } from 'lucide-react';
 
 export const TrustBar = () => (
