@@ -12,11 +12,12 @@ export function Header({ paginaAtual }: HeaderProps) {
   const [menuMobilAberto, setMenuMobilAberto] = React.useState(false);
   const [headerRolado, setHeaderRolado] = React.useState(false);
 
+  // Ordem atualizada conforme solicitado
   const linksNavegacao = [
     { href: '#home', label: 'Home', id: 'home' },
+    { href: '#parceiro', label: 'Parceiros', id: 'parceiro' },
     { href: '#sobre', label: 'Quem Somos', id: 'sobre' },
     { href: '#blog', label: 'Blog', id: 'blog' },
-    { href: '#parceiro', label: 'Parceiro', id: 'parceiro' },
   ];
 
   React.useEffect(() => {
