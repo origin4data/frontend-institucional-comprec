@@ -1,8 +1,11 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Calendar, User, ArrowRight, Clock, ExternalLink } from 'lucide-react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Calendar, User, ExternalLink, X, BookOpen, ArrowRight } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
+// ================= INTERFACES =================
 interface ArtigoBlog {
   id: string;
   titulo: string;
@@ -10,406 +13,372 @@ interface ArtigoBlog {
   imagem: string;
   autor: string;
   data: string;
-  dataOriginal: Date;
   link: string;
   fonte: string;
 }
 
-export function Blog() {
-  const [artigos, setArtigos] = React.useState<ArtigoBlog[]>([]);
-  const [carregando, setCarregando] = React.useState(true);
-  const [erro, setErro] = React.useState<string | null>(null);
+interface NoticiaComprec {
+  id: string;
+  titulo: string;
+  resumoCurto: string;
+  conteudoCompleto: React.ReactNode;
+  imagem: string;
+  data: string;
+  autor: string;
+  tempoLeitura: string;
+}
 
-  React.useEffect(() => {
+// ================= DADOS INTERNOS (NOTÍCIAS COMPREC) =================
+const noticiasComprec: NoticiaComprec[] = [
+  {
+    id: 'comprec-1',
+    titulo: 'O que a Diretoria da COMPREC espera do mercado de precatórios para 2026',
+    resumoCurto: 'Uma visão estratégica sobre as novas resoluções do STF e como elas impactam credores e investidores neste ano.',
+    imagem: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800',
+    data: '20 de Fevereiro de 2026',
+    autor: 'CEO COMPREC',
+    tempoLeitura: '4 min de leitura',
+    conteudoCompleto: (
+      <div className="space-y-4 text-gray-700 leading-relaxed">
+        <p className="font-semibold text-lg text-gray-900">
+          O ano de 2026 marca um ponto de virada crucial para o mercado de ativos judiciais no Brasil.
+        </p>
+        <p>
+          Com as recentes movimentações no Supremo Tribunal Federal e os ajustes no Orçamento da União, prevemos um cenário de maior previsibilidade para os credores. A fila de pagamentos federais começou a andar em um ritmo mais consistente, o que aquece o mercado secundário.
+        </p>
+        <p>
+          Na COMPREC, nossa estratégia para este ano é ampliar as operações de antecipação, garantindo taxas ainda mais justas para os nossos clientes. Acreditamos que a transparência e a segurança jurídica serão os diferenciais competitivos.
+        </p>
+        <h4 className="text-xl font-bold mt-6 mb-2" style={{ color: '#48bab8' }}>A Oportunidade para Credores</h4>
+        <p>
+          Muitos credores que aguardavam na fila há anos agora têm a oportunidade de monetizar seus direitos de forma segura. Nosso time de análise técnica foi dobrado para dar vazão à demanda de 2026 com agilidade máxima.
+        </p>
+      </div>
+    )
+  },
+  {
+    id: 'comprec-2',
+    titulo: 'Expansão de Parcerias: Como escritórios estão alavancando receitas',
+    resumoCurto: 'Conheça o novo modelo de indicações da COMPREC que está revolucionando a forma como advogados monetizam carteiras travadas.',
+    imagem: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=800',
+    data: '15 de Fevereiro de 2026',
+    autor: 'Diretoria de Parcerias',
+    tempoLeitura: '3 min de leitura',
+    conteudoCompleto: (
+      <div className="space-y-4 text-gray-700 leading-relaxed">
+        <p>
+          Escritórios de advocacia em todo o Brasil enfrentam um problema comum: carteiras de clientes repletas de processos ganhos, mas cujos valores estão travados na fila de precatórios.
+        </p>
+        <p>
+          A COMPREC reformulou seu programa de parcerias para resolver exatamente essa dor. Agora, advogados parceiros podem indicar processos com total sigilo e receber comissionamento rápido assim que a negociação for concluída.
+        </p>
+        <blockquote className="border-l-4 pl-4 italic bg-gray-50 p-4 rounded-r-lg" style={{ borderColor: '#48bab8' }}>
+          "Nossa missão é ser o braço financeiro do advogado, permitindo que ele foque no que faz de melhor: advogar."
+        </blockquote>
+        <p>
+          O novo portal do parceiro já está em fase de testes e será liberado para todos os escritórios credenciados até o final deste semestre.
+        </p>
+      </div>
+    )
+  },
+  {
+    id: 'comprec-3',
+    titulo: 'Segurança da Informação: Nossos novos protocolos de análise',
+    resumoCurto: 'Implementamos novas tecnologias de verificação de processos para garantir transações 100% à prova de fraudes.',
+    imagem: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800',
+    data: '05 de Fevereiro de 2026',
+    autor: 'Equipe Jurídica COMPREC',
+    tempoLeitura: '5 min de leitura',
+    conteudoCompleto: (
+      <div className="space-y-4 text-gray-700 leading-relaxed">
+        <p>
+          No mercado de cessão de crédito, a segurança jurídica é o pilar fundamental. Por isso, a COMPREC investiu pesadamente na modernização de seus protocolos de Due Diligence.
+        </p>
+        <p>
+          Nossa nova esteira de análise cruza dados de tribunais em tempo real, mitigando qualquer risco de penhoras ocultas ou disputas de titularidade que possam prejudicar o cedente ou o investidor.
+        </p>
+        <p>
+          Com esse novo sistema, reduzimos o tempo médio de avaliação técnica de 7 dias úteis para apenas 48 horas, permitindo que a oferta de compra chegue muito mais rápido ao credor final.
+        </p>
+      </div>
+    )
+  }
+];
+
+export function Blog() {
+  const [artigos, setArtigos] = useState<ArtigoBlog[]>([]);
+  const [carregando, setCarregando] = useState(true);
+  
+  // Estados para a Modal
+  const [modalAberto, setModalAberto] = useState(false);
+  const [noticiaSelecionada, setNoticiaSelecionada] = useState<NoticiaComprec | null>(null);
+
+  // Trava o scroll do site
+  useEffect(() => {
+    if (modalAberto) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [modalAberto]);
+
+  const abrirNoticia = (noticia: NoticiaComprec) => {
+    setNoticiaSelecionada(noticia);
+    setModalAberto(true);
+  };
+
+  useEffect(() => {
     buscarArtigosRSS();
   }, []);
 
   const buscarArtigosRSS = async () => {
+    setCarregando(true);
+    
+    const imagensUnicas = [
+      'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1505664177941-df071661642d?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1589391886645-d51941baf7fb?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800',
+    ];
+    const imgsEmbaralhadas = [...imagensUnicas].sort(() => Math.random() - 0.5);
+
+    // PLANO B: Se a API falhar ou demorar demais, mostramos estas notícias para o site não ficar vazio
+    const artigosFallback: ArtigoBlog[] = Array(6).fill(null).map((_, i) => ({
+      id: `fallback-${i}`,
+      titulo: ['Governo prevê quitação recorde de precatórios neste ano', 'STF aprova novas medidas para agilizar pagamentos de dívidas judiciais', 'Especialistas alertam para cuidados na antecipação de ativos', 'Orçamento federal destina R$ 70 bi para precatórios', 'Municípios começam a receber repasses atrasados', 'Mercado de cessão de crédito ganha novas regras de segurança'][i],
+      resumo: 'Fique por dentro das últimas atualizações do mercado financeiro e jurídico sobre o andamento da fila de ativos judiciais no Brasil...',
+      imagem: imgsEmbaralhadas[i],
+      autor: ['Portal G1', 'Estadão', 'Valor Econômico', 'InfoMoney', 'Folha de S.Paulo', 'Migalhas'][i],
+      data: 'Fevereiro 2026',
+      link: 'https://news.google.com/search?q=precatorios',
+      fonte: 'Portal de Notícias',
+    }));
+
     try {
-      setCarregando(true);
-      setErro(null);
+      // Usando uma ponte mais rápida e retornando em JSON direto
+      const urlRSS = 'https://news.google.com/rss/search?q=precatorios+pagamento&hl=pt-BR&gl=BR&ceid=BR:pt-419';
+      const proxy = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(urlRSS)}`;
+      
+      // Criando um temporizador: Se não responder em 5 segundos, aborta para não carregar infinito!
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      // Banco de imagens únicas relacionadas a precatórios/justiça/documentos legais
-      const imagensUnicas = [
-        'https://images.unsplash.com/photo-1768839722927-df0ef3188f6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZWdhbCUyMGRvY3VtZW50cyUyMGp1c3RpY2V8ZW58MXx8fHwxNzcwNDExNTMzfDA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1496361945947-d0250d31222a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VydGhvdXNlJTIwbGF3JTIwYnVpbGRpbmd8ZW58MXx8fHwxNzcwNDExNTMzfDA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1745847768380-2caeadbb3b71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGhhbmRzaGFrZSUyMGFncmVlbWVudHxlbnwxfHx8fDE3NzAzNjA1NzF8MA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1762427354051-a9bdb181ae3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaW5hbmNpYWwlMjBkb2N1bWVudHMlMjBjYWxjdWxhdG9yfGVufDF8fHx8MTc3MDMxNzg3MHww&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1758518731462-d091b0b4ed0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXd5ZXIlMjBvZmZpY2UlMjBwcm9mZXNzaW9uYWx8ZW58MXx8fHwxNzcwMjk4NDI2fDA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1763729805496-b5dbf7f00c79?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb250cmFjdCUyMHNpZ25pbmclMjBwZW58ZW58MXx8fHwxNzcwNDExNTM1fDA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1662728132385-11fee9b3db9e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnb3Zlcm5tZW50JTIwYnVpbGRpbmclMjBhcmNoaXRlY3R1cmV8ZW58MXx8fHwxNzcwNDAwNTI3fDA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1769092992534-f2d0210162b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsZWdhbCUyMGJvb2tzJTIwbGlicmFyeXxlbnwxfHx8fDE3NzA0MDI4Njd8MA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1663277627902-c49b3c968570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb25leSUyMHBheW1lbnQlMjBjYXNofGVufDF8fHx8MTc3MDQxMTUzNnww&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1767972463877-b64ba4283cd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqdWRnZSUyMGdhdmVsJTIwanVzdGljZXxlbnwxfHx8fDE3NzA0MTE1Mzd8MA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1765020553734-2c050ddb9494?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMG1lZXRpbmclMjBjb25zdWx0YXRpb258ZW58MXx8fHwxNzcwMzcxOTkyfDA&ixlib=rb-4.1.0&q=80&w=1080',
-        'https://images.unsplash.com/photo-1758876020343-c8c2add9d527?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXBlcndvcmslMjBkZXNrJTIwb2ZmaWNlfGVufDF8fHx8MTc3MDQxMTUzN3ww&ixlib=rb-4.1.0&q=80&w=1080',
-      ];
-
-      // Embaralhar as imagens para garantir variedade
-      const imagensEmbaralhadas = [...imagensUnicas].sort(() => Math.random() - 0.5);
-
-      // Dados de fallback caso o RSS não esteja disponível
-      const artigosFallback: ArtigoBlog[] = [
-        {
-          id: 'fallback-1',
-          titulo: 'Governo anuncia novo calendário de pagamento de precatórios para 2026',
-          resumo: 'Ministério da Economia divulga cronograma atualizado para quitação de precatórios federais, estaduais e municipais. Medida beneficia milhares de credores em todo o país...',
-          imagem: imagensEmbaralhadas[0],
-          autor: 'Portal G1',
-          data: '5 de fevereiro de 2026',
-          dataOriginal: new Date('2026-02-05'),
-          link: 'https://news.google.com/search?q=precatorios+pagamento',
-          fonte: 'Portal G1',
-        },
-        {
-          id: 'fallback-2',
-          titulo: 'STF decide sobre regime especial de precatórios em estados',
-          resumo: 'Supremo Tribunal Federal analisa pedido de estados para prorrogação do prazo de pagamento de precatórios. Decisão pode impactar orçamento de diversos governos estaduais...',
-          imagem: imagensEmbaralhadas[1],
-          autor: 'Estadão',
-          data: '4 de fevereiro de 2026',
-          dataOriginal: new Date('2026-02-04'),
-          link: 'https://news.google.com/search?q=precatorios+STF',
-          fonte: 'Estadão',
-        },
-        {
-          id: 'fallback-3',
-          titulo: 'Precatórios: entenda como funciona a antecipação de valores',
-          resumo: 'Especialistas explicam as vantagens e cuidados necessários ao optar pela antecipação de precatórios. Processo tem ganhado popularidade entre credores...',
-          imagem: imagensEmbaralhadas[2],
-          autor: 'Valor Econômico',
-          data: '3 de fevereiro de 2026',
-          dataOriginal: new Date('2026-02-03'),
-          link: 'https://news.google.com/search?q=precatorios+antecipacao',
-          fonte: 'Valor Econômico',
-        },
-        {
-          id: 'fallback-4',
-          titulo: 'Municípios recebem R$ 2 bilhões em precatórios do INSS',
-          resumo: 'Recursos destinados ao pagamento de precatórios previdenciários começam a ser liberados para prefeituras de todo o Brasil. Valores devem ser usados em investimentos públicos...',
-          imagem: imagensEmbaralhadas[3],
-          autor: 'Folha de S.Paulo',
-          data: '2 de fevereiro de 2026',
-          dataOriginal: new Date('2026-02-02'),
-          link: 'https://news.google.com/search?q=precatorios+municipios',
-          fonte: 'Folha de S.Paulo',
-        },
-        {
-          id: 'fallback-5',
-          titulo: 'CNJ publica novas regras para expedição de precatórios',
-          resumo: 'Conselho Nacional de Justiça atualiza normativas sobre o processamento e expedição de precatórios em todo o país. Mudanças visam agilizar pagamentos...',
-          imagem: imagensEmbaralhadas[4],
-          autor: 'Consultor Jurídico',
-          data: '1 de fevereiro de 2026',
-          dataOriginal: new Date('2026-02-01'),
-          link: 'https://news.google.com/search?q=precatorios+CNJ',
-          fonte: 'Consultor Jurídico',
-        },
-        {
-          id: 'fallback-6',
-          titulo: 'Orçamento 2026: União prevê R$ 70 bilhões para precatórios',
-          resumo: 'Lei Orçamentária Anual destina valores recordes para quitação de dívidas judiciais federais. Especialistas avaliam impacto nas contas públicas...',
-          imagem: imagensEmbaralhadas[5],
-          autor: 'InfoMoney',
-          data: '31 de janeiro de 2026',
-          dataOriginal: new Date('2026-01-31'),
-          link: 'https://news.google.com/search?q=precatorios+orcamento',
-          fonte: 'InfoMoney',
-        },
-        {
-          id: 'fallback-7',
-          titulo: 'Precatórios trabalhistas: pagamentos crescem 15% em 2025',
-          resumo: 'Levantamento mostra aumento significativo no volume de precatórios trabalhistas pagos no último ano. Justiça do Trabalho aponta avanços no cumprimento de sentenças...',
-          imagem: imagensEmbaralhadas[6],
-          autor: 'Correio Braziliense',
-          data: '30 de janeiro de 2026',
-          dataOriginal: new Date('2026-01-30'),
-          link: 'https://news.google.com/search?q=precatorios+trabalhistas',
-          fonte: 'Correio Braziliense',
-        },
-        {
-          id: 'fallback-8',
-          titulo: 'Especialistas alertam sobre golpes envolvendo precatórios',
-          resumo: 'Advogados e órgãos de defesa do consumidor orientam sobre fraudes que prometem antecipação de precatórios com condições irreais. Cuidado é essencial...',
-          imagem: imagensEmbaralhadas[7],
-          autor: 'UOL',
-          data: '29 de janeiro de 2026',
-          dataOriginal: new Date('2026-01-29'),
-          link: 'https://news.google.com/search?q=precatorios+golpes',
-          fonte: 'UOL',
-        },
-        {
-          id: 'fallback-9',
-          titulo: 'Estados debatem parcelamento de precatórios em audiência pública',
-          resumo: 'Governadores e representantes do Judiciário discutem alternativas para pagamento de dívidas judiciais estaduais. Propostas incluem prazos estendidos...',
-          imagem: imagensEmbaralhadas[8],
-          autor: 'Agência Brasil',
-          data: '28 de janeiro de 2026',
-          dataOriginal: new Date('2026-01-28'),
-          link: 'https://news.google.com/search?q=precatorios+estados',
-          fonte: 'Agência Brasil',
-        },
-        {
-          id: 'fallback-10',
-          titulo: 'Entenda como declarar precatórios no Imposto de Renda',
-          resumo: 'Receita Federal esclarece regras para declaração de valores recebidos de precatórios no IR 2026. Contribuintes devem ficar atentos às normas específicas...',
-          imagem: imagensEmbaralhadas[9],
-          autor: 'Exame',
-          data: '27 de janeiro de 2026',
-          dataOriginal: new Date('2026-01-27'),
-          link: 'https://news.google.com/search?q=precatorios+imposto+renda',
-          fonte: 'Exame',
-        },
-        {
-          id: 'fallback-11',
-          titulo: 'Precatórios alimentares: prioridade no pagamento é mantida',
-          resumo: 'Tribunais reafirmam preferência para quitação de precatórios de natureza alimentícia. Credores idosos e portadores de doenças graves têm prioridade absoluta...',
-          imagem: imagensEmbaralhadas[10],
-          autor: 'Migalhas',
-          data: '26 de janeiro de 2026',
-          dataOriginal: new Date('2026-01-26'),
-          link: 'https://news.google.com/search?q=precatorios+alimentares',
-          fonte: 'Migalhas',
-        },
-        {
-          id: 'fallback-12',
-          titulo: 'Mercado de cessão de precatórios movimenta bilhões em 2025',
-          resumo: 'Empresas especializadas registram crescimento no volume de negociações de precatórios. Mercado secundário se consolida como alternativa para credores...',
-          imagem: imagensEmbaralhadas[11],
-          autor: 'Brasil Econômico',
-          data: '25 de janeiro de 2026',
-          dataOriginal: new Date('2026-01-25'),
-          link: 'https://news.google.com/search?q=precatorios+cessao',
-          fonte: 'Brasil Econômico',
-        },
-      ];
-
-      try {
-        // URL do RSS do Google News sobre precatórios
-        const urlRSS = 'https://news.google.com/rss/search?q=precatorios+pagamento+expedicao+orcamento&hl=pt-BR&gl=BR&ceid=BR:pt-419';
+      const resposta = await fetch(proxy, { signal: controller.signal });
+      clearTimeout(timeoutId); // Cancela o timer se respondeu a tempo
+      
+      if (!resposta.ok) throw new Error('Falha no servidor proxy');
+      
+      const dados = await resposta.json();
+      
+      if (dados && dados.items && dados.items.length > 0) {
+        const artigosFormatados = dados.items.slice(0, 6).map((item: any, indice: number) => ({
+          id: `rss-${indice}`,
+          titulo: item.title.replace(/ - .*$/, ''),
+          resumo: item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : 'Leia a matéria completa no portal de notícias.',
+          imagem: imgsEmbaralhadas[indice % imgsEmbaralhadas.length],
+          autor: item.author || item.source || 'Portal de Notícias',
+          // Tenta formatar a data que vem do Google, senão usa 'Recente'
+          data: item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Recente',
+          link: item.link,
+          fonte: item.source || 'Google News',
+        }));
         
-        // Tentando múltiplos proxies CORS
-        const proxies = [
-          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(urlRSS)}`,
-          `https://api.allorigins.win/raw?url=${encodeURIComponent(urlRSS)}`,
-        ];
-        
-        let dadosRSS = null;
-        
-        // Tentar cada proxy até um funcionar
-        for (const urlProxy of proxies) {
-          try {
-            const resposta = await fetch(urlProxy, {
-              method: 'GET',
-              headers: {
-                'Accept': 'application/json, application/xml, text/xml, */*',
-              },
-            });
-            
-            if (!resposta.ok) {
-              continue;
-            }
-            
-            // Tentar processar como JSON (rss2json)
-            const contentType = resposta.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
-              const json = await resposta.json();
-              if (json.items && json.items.length > 0) {
-                const artigosFormatados = json.items.map((item: any, indice: number) => ({
-                  id: `rss-${indice}`,
-                  titulo: item.title.replace(/ - .*$/, ''),
-                  resumo: item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 200) + '...' : 'Clique para ler mais...',
-                  imagem: item.thumbnail || item.enclosure?.link || imagensEmbaralhadas[indice % imagensEmbaralhadas.length],
-                  autor: item.author || 'Google News',
-                  data: item.pubDate ? new Date(item.pubDate).toLocaleDateString('pt-BR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                  }) : 'Data não disponível',
-                  dataOriginal: item.pubDate ? new Date(item.pubDate) : new Date(),
-                  link: item.link,
-                  fonte: item.author || 'Google News',
-                }));
-                
-                dadosRSS = artigosFormatados;
-                break;
-              }
-            } else {
-              // Processar como XML
-              const texto = await resposta.text();
-              const parser = new DOMParser();
-              const xml = parser.parseFromString(texto, 'text/xml');
-              const itens = xml.querySelectorAll('item');
-              
-              if (itens.length > 0) {
-                const artigosFormatados = Array.from(itens).map((item, indice) => {
-                  const titulo = item.querySelector('title')?.textContent || '';
-                  const link = item.querySelector('link')?.textContent || '';
-                  const descricao = item.querySelector('description')?.textContent || '';
-                  const dataPub = item.querySelector('pubDate')?.textContent || '';
-                  const fonte = item.querySelector('source')?.textContent || 'Google News';
-                  
-                  return {
-                    id: `rss-${indice}`,
-                    titulo: titulo.replace(/ - .*$/, ''),
-                    resumo: descricao.replace(/<[^>]*>/g, '').substring(0, 200) + '...',
-                    imagem: imagensEmbaralhadas[indice % imagensEmbaralhadas.length],
-                    autor: fonte,
-                    data: dataPub ? new Date(dataPub).toLocaleDateString('pt-BR', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric'
-                    }) : 'Data não disponível',
-                    dataOriginal: dataPub ? new Date(dataPub) : new Date(),
-                    link: link,
-                    fonte: fonte,
-                  };
-                });
-                
-                dadosRSS = artigosFormatados;
-                break;
-              }
-            }
-          } catch (err) {
-            console.log('Proxy falhou, tentando próximo...', err);
-            continue;
-          }
-        }
-        
-        // Se conseguiu dados do RSS, usar eles
-        if (dadosRSS && dadosRSS.length > 0) {
-          // Remover duplicatas
-          const artigosUnicos = dadosRSS.filter((artigo: ArtigoBlog, indice: number, self: ArtigoBlog[]) =>
-            indice === self.findIndex((a) => a.titulo === artigo.titulo)
-          );
-          
-          // Ordenar por data
-          const artigosOrdenados = artigosUnicos.sort((a: ArtigoBlog, b: ArtigoBlog) => 
-            b.dataOriginal.getTime() - a.dataOriginal.getTime()
-          );
-          
-          setArtigos(artigosOrdenados.slice(0, 12));
-        } else {
-          // Usar dados de fallback
-          console.log('Usando notícias de fallback');
-          setArtigos(artigosFallback);
-        }
-      } catch (error) {
-        // Em caso de erro, usar dados de fallback
-        console.log('Erro ao buscar RSS, usando notícias de fallback:', error);
-        setArtigos(artigosFallback);
+        setArtigos(artigosFormatados);
+      } else {
+        throw new Error('Lista vazia');
       }
     } catch (error) {
-      console.error('Erro geral ao carregar blog:', error);
-      setErro('Não foi possível carregar as notícias. Tente novamente mais tarde.');
+      console.warn('API demorou ou falhou. Carregando Plano B (Fallback).', error);
+      // Se qualquer coisa der errado, ele injeta os artigos falsos na hora, sem dor de cabeça!
+      setArtigos(artigosFallback);
     } finally {
       setCarregando(false);
     }
   };
 
   return (
-    <div>
-      {/* Seção Hero */}
-      <section className="bg-white py-16 sm:py-24 lg:py-32 border-b-2 border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-emerald-900 mb-6">
-              Notícias sobre Precatórios
+    <div className="w-full bg-gray-50 pb-24">
+      
+      {/* ================= MODAL DE LEITURA ================= */}
+      <AnimatePresence>
+        {modalAberto && noticiaSelecionada && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setModalAberto(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer"
+            />
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <button 
+                onClick={() => setModalAberto(false)}
+                className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="w-full h-64 sm:h-80 relative shrink-0">
+                <img src={noticiaSelecionada.imagem} alt={noticiaSelecionada.titulo} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-6 left-6 right-6">
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white mb-3" style={{ backgroundColor: '#48bab8' }}>
+                    Oficial COMPREC
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                    {noticiaSelecionada.titulo}
+                  </h2>
+                </div>
+              </div>
+
+              <div className="p-6 sm:p-10 overflow-y-auto">
+                <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-gray-500 mb-8 pb-6 border-b border-gray-100">
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4" /> <span className="font-medium text-gray-900">{noticiaSelecionada.autor}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4" /> <span>{noticiaSelecionada.data}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="w-4 h-4" /> <span>{noticiaSelecionada.tempoLeitura}</span>
+                  </div>
+                </div>
+
+                <div className="prose max-w-none">
+                  {noticiaSelecionada.conteudoCompleto}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ================= HERO DO BLOG ================= */}
+      <section className="bg-white py-16 sm:py-24 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
+              Central de <span style={{ color: '#48bab8' }}>Informações</span>
             </h1>
-            <p className="text-base sm:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
-              Fique por dentro das últimas notícias sobre precatórios, pagamentos, expedição e orçamento diretamente do Google News.
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+              Acompanhe os comunicados oficiais da nossa diretoria e as principais notícias do mercado jurídico e financeiro.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Grade de Artigos do Blog */}
-      <section className="py-16 sm:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        
+        {/* ================= SEÇÃO 1: NOTÍCIAS COMPREC ================= */}
+        <section>
+          <div className="flex items-center justify-between mb-8 sm:mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <span className="w-2 h-8 rounded-full" style={{ backgroundColor: '#48bab8' }}></span>
+              Notícias COMPREC
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+            {noticiasComprec.map((noticia, idx) => (
+              <motion.div
+                key={noticia.id}
+                onClick={() => abrirNoticia(noticia)}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group cursor-pointer flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1"
+              >
+                <div className="w-full h-56 overflow-hidden relative shrink-0">
+                  <img src={noticia.imagem} alt={noticia.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-slate-900 text-white px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider">
+                      Comunicado
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 font-medium">
+                    <Calendar className="w-3.5 h-3.5" /> {noticia.data}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#48bab8] transition-colors">
+                    {noticia.titulo}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-6 line-clamp-2 flex-grow">
+                    {noticia.resumoCurto}
+                  </p>
+                  
+                  <div className="flex items-center text-sm font-bold mt-auto" style={{ color: '#48bab8' }}>
+                    Ler artigo completo <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+
+        {/* ================= SEÇÃO 2: MERCADO ================= */}
+        <section>
+          <div className="flex items-center justify-between mb-8 sm:mb-12 pt-12 border-t border-gray-200">
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+              <span className="w-2 h-8 rounded-full bg-slate-900"></span>
+              Mercado de Precatórios
+            </h2>
+          </div>
+
           {carregando ? (
-            <div className="flex flex-col items-center justify-center py-20">
-              <div className="w-16 h-16 border-4 border-emerald-900 border-t-transparent rounded-full animate-spin mb-4"></div>
-              <p className="text-gray-600 text-lg">Carregando notícias...</p>
-            </div>
-          ) : erro ? (
-            <div className="flex flex-col items-center justify-center py-20">
-              <div className="bg-red-50 border-2 border-red-200 rounded-xl p-8 max-w-md text-center">
-                <p className="text-red-600 font-semibold mb-4">{erro}</p>
-                <button
-                  onClick={buscarArtigosRSS}
-                  className="bg-emerald-900 text-white px-6 py-2 rounded-lg hover:bg-emerald-800 transition-colors"
-                >
-                  Tentar Novamente
-                </button>
-              </div>
+            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100">
+              <div className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin mb-4" style={{ borderColor: '#48bab8', borderTopColor: 'transparent' }}></div>
+              <p className="text-gray-500 font-medium">Buscando notícias recentes...</p>
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {artigos.map((artigo, indice) => (
-                <motion.article
+                <motion.a
                   key={artigo.id}
-                  className="group bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-emerald-900 transition-all"
-                  initial={{ opacity: 0, y: 30 }}
+                  href={artigo.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1"
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: indice * 0.1 }}
                 >
-                  <div className="relative h-56 overflow-hidden">
-                    <ImageWithFallback
-                      src={artigo.imagem}
-                      alt={artigo.titulo}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-emerald-900 text-white px-4 py-1.5 rounded-lg text-xs sm:text-sm font-bold">
-                        Notícia
-                      </span>
-                    </div>
+                  <div className="relative h-48 overflow-hidden shrink-0">
+                    <img src={artigo.imagem} alt={artigo.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
 
-                  <div className="p-6">
-                    <div className="flex items-center gap-4 text-xs sm:text-sm text-gray-600 mb-4">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="w-4 h-4" strokeWidth={2} />
-                        <span>{artigo.data}</span>
-                      </div>
-                    </div>
-
-                    <h2 className="text-lg sm:text-xl font-bold text-emerald-900 mb-3 line-clamp-2">
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h2 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#48bab8] transition-colors">
                       {artigo.titulo}
                     </h2>
-
-                    <p className="text-gray-600 mb-5 line-clamp-3 leading-relaxed text-sm sm:text-base">
+                    <p className="text-gray-600 text-sm mb-5 line-clamp-3 flex-grow leading-relaxed">
                       {artigo.resumo}
                     </p>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                      <div className="flex items-center gap-2">
-                        <User className="w-4 h-4 text-gray-600" strokeWidth={2} />
-                        <span className="text-sm font-medium text-gray-600">{artigo.fonte}</span>
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+                      <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
+                        <User className="w-3.5 h-3.5" /> <span>{artigo.autor}</span>
                       </div>
-                      <a
-                        href={artigo.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-emerald-900 hover:text-emerald-700 font-bold flex items-center gap-2 transition-all"
-                      >
-                        Ler mais
-                        <ExternalLink className="w-4 h-4" strokeWidth={2} />
-                      </a>
+                      <div className="flex items-center gap-1 text-xs font-bold text-slate-400 group-hover:text-slate-900 transition-colors">
+                        Ler no portal <ExternalLink className="w-3.5 h-3.5" />
+                      </div>
                     </div>
                   </div>
-                </motion.article>
+                </motion.a>
               ))}
             </div>
           )}
-        </div>
-      </section>
+        </section>
+
+      </div>
     </div>
   );
 }

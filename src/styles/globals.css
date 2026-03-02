@@ -1,10 +1,8 @@
 @custom-variant dark (&:is(.dark *));
 
-/* Importar Google Fonts - Tipografia Profissional */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
-
 :root {
   --font-size: 16px;
+  --ciano: #48BAB8;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;

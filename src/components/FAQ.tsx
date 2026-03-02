@@ -1,33 +1,8 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { perguntasFrequentes } from '../mock/perguntasFrequentes';
 
-const perguntasFrequentes = [
-  {
-    pergunta: 'O que é um precatório?',
-    resposta: 'Precatório é uma requisição de pagamento feita ao Poder Judiciário contra a Fazenda Pública (União, Estados ou Municípios), decorrente de uma decisão judicial transitada em julgado. É a forma como o poder público paga suas dívidas judiciais.',
-  },
-  {
-    pergunta: 'Quanto tempo demora para receber um precatório?',
-    resposta: 'O prazo pode variar bastante, geralmente entre 5 a 15 anos, dependendo do ente público devedor e do orçamento disponível. Por isso, muitas pessoas optam pela antecipação através de empresas especializadas.',
-  },
-  {
-    pergunta: 'Como funciona a antecipação de precatórios?',
-    resposta: 'A antecipação é um processo onde você cede seu direito de recebimento do precatório para uma empresa especializada, que paga um valor imediato. Assim, você não precisa esperar anos para receber seu dinheiro.',
-  },
-  {
-    pergunta: 'Quais documentos são necessários?',
-    resposta: 'Geralmente são necessários: RG, CPF, comprovante de residência, documentos do processo judicial, certidão de objeto e pé do precatório, e procuração (se houver). Nossa equipe orienta sobre toda a documentação necessária.',
-  },
-  {
-    pergunta: 'É seguro antecipar meu precatório?',
-    resposta: 'Sim! A antecipação é totalmente legal e segura quando feita com empresas confiáveis e especializadas como a Comprec. Todo o processo é transparente, com contratos registrados e acompanhamento jurídico completo.',
-  },
-  {
-    pergunta: 'Quanto vou receber pela antecipação?',
-    resposta: 'O valor depende de diversos fatores como o tipo de precatório, prazo estimado de pagamento e condições de mercado. Nossa equipe faz uma análise personalizada para oferecer as melhores condições possíveis.',
-  },
-];
 
 export function FAQ() {
   const [indiceAberto, setIndiceAberto] = React.useState<number | null>(null);
@@ -37,7 +12,7 @@ export function FAQ() {
   };
 
   return (
-    <section className="py-16 sm:py-24 lg:py-32 bg-gray-50">
+    <section className="py-16 sm:py-24 lg:py-32 bg-[#FDFDFD]]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-12 sm:mb-16"
@@ -46,7 +21,7 @@ export function FAQ() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-emerald-900 mb-4 sm:mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#48BAB8] mb-4 sm:mb-6">
             Perguntas Frequentes
           </h2>
           <p className="text-base sm:text-lg text-gray-600">
@@ -71,7 +46,7 @@ export function FAQ() {
                 <span className="font-semibold text-emerald-900 text-base sm:text-lg leading-relaxed pr-4">
                   {item.pergunta}
                 </span>
-                <ChevronDown className={`w-5 h-5 text-emerald-900 flex-shrink-0 transition-transform duration-300 ${
+                <ChevronDown className={`w-5 h-5 text-emerald-900 shrink-0 transition-transform duration-300 ${
                   indiceAberto === indice ? 'rotate-180' : ''
                 }`} strokeWidth={2} />
               </button>
