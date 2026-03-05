@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { ShieldCheck, ArrowRight } from 'lucide-react';
-import heroImage from '../../assets/comprec-render.png';
+import heroImage from '../../assets/pessoa_em_pe2.png';
 
 export const HeroSection = () => {
   const fadeInUp = {
@@ -9,11 +9,23 @@ export const HeroSection = () => {
   };
 
   return (
-    <section className="relative bg-[gradient-to-b] from-emerald-50/30 to-white py-20 lg:py-0 min-h-[85vh] flex items-center"
-    style ={{backgroundColor: '#FFFF'}}>
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <motion.div className="flex flex-col justify-center order-2 lg:order-1" initial="hidden" animate="visible" variants={fadeInUp}>
+    <section 
+      // Retiramos o "items-center" e o padding inferior para garantir que encoste ao fundo
+      className="relative pt-24 lg:pt-32 flex flex-col justify-end overflow-hidden"
+      style={{ backgroundColor: '#FFFFFF', minHeight: '85vh' }}
+    >
+      {/* flex-grow para fazer o contêiner ocupar toda a altura */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow flex items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 w-full items-stretch">
+          
+          {/* COLUNA DO TEXTO */}
+          <motion.div 
+            // Adicionamos pb-16 / lg:pb-32 para manter o texto centralizado visualmente
+            className="flex flex-col justify-center order-2 lg:order-1 pb-16 lg:pb-32" 
+            initial="hidden" 
+            animate="visible" 
+            variants={fadeInUp}
+          >
             <div className="inline-flex items-center gap-2 text-emerald-700 font-semibold mb-6 text-sm lg:text-base uppercase tracking-wider">
               <ShieldCheck className="w-5 h-5" />
               Programa de Parceria
@@ -36,13 +48,23 @@ export const HeroSection = () => {
               </button>
             </div>
           </motion.div>
-          <motion.div className="order-1 lg:order-2 flex justify-center" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.1 }}>
+
+          {/* COLUNA DA IMAGEM */}
+          <motion.div 
+            // items-end joga a imagem para a base da linha do grid
+            className="order-1 lg:order-2 flex justify-center items-end" 
+            initial={{ opacity: 0, scale: 0.98 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <img 
               src={heroImage} 
               alt="Advogado Parceiro" 
-              className="w-full h-auto max-w-112.5 lg:max-w-150 object-contain drop-shadow-2xl" 
+              // Adicionado 'object-bottom' e 'block'
+              className="w-full h-auto max-w-112.5 lg:max-w-150 object-contain object-bottom drop-shadow-2xl block" 
             />
           </motion.div>
+          
         </div>
       </div>
     </section>
