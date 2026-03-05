@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Linkedin, Instagram, Youtube, Clock, Shield, FileText } from 'lucide-react';
+import { Phone, Mail, Linkedin, Instagram, Youtube, Clock, Shield } from 'lucide-react';
 import logoComprec from 'figma:asset/67596b60077a129b8cb18eb43f53b80c352eee3a.png';
 
 export function Footer() {
@@ -39,16 +39,16 @@ export function Footer() {
                   href="https://www.linkedin.com/company/comprec"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-emerald-800 hover:bg-[#48BAB8]  p-2.5 rounded-lg transition-colors"
+                  className="bg-emerald-800 hover:bg-[#48BAB8] p-2.5 rounded-lg transition-colors"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://www.youtube.com/@comprec"
+                  href="https://www.youtube.com/@Comprecativos"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-emerald-800 hover:bg-[#48BAB8]  p-2.5 rounded-lg transition-colors"
+                  className="bg-emerald-800 hover:bg-[#48BAB8] p-2.5 rounded-lg transition-colors"
                   aria-label="YouTube"
                 >
                   <Youtube className="w-4 h-4" />
@@ -66,27 +66,21 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="#parceiro" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2 group">
+                  <span className="w-1 h-1 bg-white rounded-full group-hover:w-2 transition-all"></span>
+                  Parceiros
+                </a>
+              </li>
+              <li>
                 <a href="#sobre" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2 group">
                   <span className="w-1 h-1 bg-white rounded-full group-hover:w-2 transition-all"></span>
                   Sobre Nós
                 </a>
               </li>
               <li>
-                <a href="#servicos" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2 group">
-                  <span className="w-1 h-1 bg-white rounded-full group-hover:w-2 transition-all"></span>
-                  Serviços
-                </a>
-              </li>
-              <li>
                 <a href="#blog" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2 group">
                   <span className="w-1 h-1 bg-white rounded-full group-hover:w-2 transition-all"></span>
                   Blog
-                </a>
-              </li>
-              <li>
-                <a href="#contato" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2 group">
-                  <span className="w-1 h-1 bg-white rounded-full group-hover:w-2 transition-all"></span>
-                  Contato
                 </a>
               </li>
             </ul>
@@ -96,14 +90,14 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <p className="text-white font-medium text-xs mb-1">Central de Atendimento</p>
-                <a href="tel:08001234567" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2">
+                <a href="https://wa.me/5521989822163" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2">
                   <Phone className="w-4 h-4 text-white" />
-                  0800 123 4567
+                  (21) 98982-2163
                 </a>
               </li>
               <li>
                 <p className="text-white font-medium text-xs mb-1">E-mail</p>
-                <a href="mailto:contato@comprec.com.br" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2">
+                <a href="mailto:comprecativos@gmail.com" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2">
                   <Mail className="w-4 h-4 text-white" />
                   comprecativos@gmail.com
                 </a>
@@ -126,17 +120,10 @@ export function Footer() {
                   Política de Privacidade
                 </a>
               </li>
-              <li>
-                <a href="#termos" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2 group">
-                  <FileText className="w-4 h-4 text-white" />
-                  Termos de Uso
-                </a>
-              </li>
-              <li>
-                <a href="#lgpd" className="text-white hover:text-[#48BAB8] transition-colors text-sm flex items-center gap-2 group">
-                  <Shield className="w-4 h-4 text-white" />
-                  LGPD
-                </a>
+              {/* LGPD agora é um texto sem link, enfatizando conformidade */}
+              <li className="flex items-center gap-2 text-white/70 text-sm">
+                <Shield className="w-4 h-4" />
+                <span>Site em conformidade com a LGPD</span>
               </li>
             </ul>
             <div>

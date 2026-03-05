@@ -4,7 +4,8 @@ import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { Blog } from './pages/Blog';
-import { Parceiro } from './pages/Partner'; // <-- Atualizado para importar de Partner.tsx
+import { Parceiro } from './pages/Partner';
+import { PrivacyPolicy } from './pages/PrivacyPolicy'; 
 import { Footer } from './components/Footer';
 
 export default function App() {
@@ -32,7 +33,9 @@ export default function App() {
       case 'blog':
         return <Blog />;
       case 'parceiro':
-        return <Parceiro />; // Continua a renderizar o componente Parceiro
+        return <Parceiro />;
+      case 'privacidade':          // <-- NOVO CASE ADICIONADO
+        return <PrivacyPolicy />;  // <-- RENDERIZA A PÁGINA AQUI
       default:
         return <Home />;
     }
