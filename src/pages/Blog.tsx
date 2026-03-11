@@ -1,34 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, User, ExternalLink, X, BookOpen, ArrowRight } from 'lucide-react';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { ArtigoBlog, NoticiaComprec } from '../types/Blog';
 
-// ================= INTERFACES =================
-interface ArtigoBlog {
-  id: string;
-  titulo: string;
-  resumo: string;
-  imagem: string;
-  autor: string;
-  data: string;
-  link: string;
-  fonte: string;
-}
-
-interface NoticiaComprec {
-  id: string;
-  titulo: string;
-  resumoCurto: string;
-  conteudoCompleto: React.ReactNode;
-  imagem: string;
-  data: string;
-  autor: string;
-  tempoLeitura: string;
-}
-
-// ================= DADOS INTERNOS (NOTÍCIAS COMPREC) =================
 const noticiasComprec: NoticiaComprec[] = [
   {
     id: 'comprec-1',
@@ -135,14 +111,12 @@ export function Blog() {
     const imagensUnicas = [
       'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800',
-      'https://images.unsplash.com/photo-1505664177941-df071661642d?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1589391886645-d51941baf7fb?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800',
     ];
     const imgsEmbaralhadas = [...imagensUnicas].sort(() => Math.random() - 0.5);
 
-    // PLANO B: Se a API falhar ou demorar demais, mostramos estas notícias para o site não ficar vazio
     const artigosFallback: ArtigoBlog[] = Array(6).fill(null).map((_, i) => ({
       id: `fallback-${i}`,
       titulo: ['Governo prevê quitação recorde de precatórios neste ano', 'STF aprova novas medidas para agilizar pagamentos de dívidas judiciais', 'Especialistas alertam para cuidados na antecipação de ativos', 'Orçamento federal destina R$ 70 bi para precatórios', 'Municípios começam a receber repasses atrasados', 'Mercado de cessão de crédito ganha novas regras de segurança'][i],
@@ -155,16 +129,13 @@ export function Blog() {
     }));
 
     try {
-      // Usando uma ponte mais rápida e retornando em JSON direto
       const urlRSS = 'https://news.google.com/rss/search?q=precatorios+pagamento&hl=pt-BR&gl=BR&ceid=BR:pt-419';
       const proxy = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(urlRSS)}`;
-      
-      // Criando um temporizador: Se não responder em 5 segundos, aborta para não carregar infinito!
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
       const resposta = await fetch(proxy, { signal: controller.signal });
-      clearTimeout(timeoutId); // Cancela o timer se respondeu a tempo
+      clearTimeout(timeoutId);
       
       if (!resposta.ok) throw new Error('Falha no servidor proxy');
       
@@ -177,8 +148,14 @@ export function Blog() {
           resumo: item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : 'Leia a matéria completa no portal de notícias.',
           imagem: imgsEmbaralhadas[indice % imgsEmbaralhadas.length],
           autor: item.author || item.source || 'Portal de Notícias',
-          // Tenta formatar a data que vem do Google, senão usa 'Recente'
-          data: item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Recente',
+          data: item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')).toLocaleDateString(
+            'pt-BR', 
+              { 
+                day: '2-digit', 
+                month: 'short', 
+                year: 'numeric' 
+              }
+          ) : 'Recente',
           link: item.link,
           fonte: item.source || 'Google News',
         }));
@@ -189,7 +166,6 @@ export function Blog() {
       }
     } catch (error) {
       console.warn('API demorou ou falhou. Carregando Plano B (Fallback).', error);
-      // Se qualquer coisa der errado, ele injeta os artigos falsos na hora, sem dor de cabeça!
       setArtigos(artigosFallback);
     } finally {
       setCarregando(false);
@@ -198,8 +174,6 @@ export function Blog() {
 
   return (
     <div className="w-full bg-gray-50 pb-24">
-      
-      {/* ================= MODAL DE LEITURA ================= */}
       <AnimatePresence>
         {modalAberto && noticiaSelecionada && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -208,7 +182,6 @@ export function Blog() {
               onClick={() => setModalAberto(false)}
               className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer"
             />
-            
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -221,10 +194,9 @@ export function Blog() {
               >
                 <X className="w-5 h-5" />
               </button>
-
               <div className="w-full h-64 sm:h-80 relative shrink-0">
                 <img src={noticiaSelecionada.imagem} alt={noticiaSelecionada.titulo} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 right-6">
                   <span className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white mb-3" style={{ backgroundColor: '#48bab8' }}>
                     Oficial COMPREC
@@ -234,7 +206,6 @@ export function Blog() {
                   </h2>
                 </div>
               </div>
-
               <div className="p-6 sm:p-10 overflow-y-auto">
                 <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-gray-500 mb-8 pb-6 border-b border-gray-100">
                   <div className="flex items-center gap-2">
@@ -247,7 +218,6 @@ export function Blog() {
                     <BookOpen className="w-4 h-4" /> <span>{noticiaSelecionada.tempoLeitura}</span>
                   </div>
                 </div>
-
                 <div className="prose max-w-none">
                   {noticiaSelecionada.conteudoCompleto}
                 </div>
@@ -256,12 +226,10 @@ export function Blog() {
           </div>
         )}
       </AnimatePresence>
-
-      {/* ================= HERO DO BLOG ================= */}
       <section className="bg-white py-16 sm:py-24 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
+            <h1 className="font-outfit text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
               Central de <span style={{ color: '#48bab8' }}>Informações</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
@@ -270,10 +238,7 @@ export function Blog() {
           </motion.div>
         </div>
       </section>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
-        
-        {/* ================= SEÇÃO 1: NOTÍCIAS COMPREC ================= */}
         <section>
           <div className="flex items-center justify-between mb-8 sm:mb-12">
             <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
@@ -281,7 +246,6 @@ export function Blog() {
               Notícias COMPREC
             </h2>
           </div>
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
             {noticiasComprec.map((noticia, idx) => (
               <motion.div
@@ -301,18 +265,16 @@ export function Blog() {
                     </span>
                   </div>
                 </div>
-                
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col grow">
                   <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 font-medium">
                     <Calendar className="w-3.5 h-3.5" /> {noticia.data}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#48bab8] transition-colors">
                     {noticia.titulo}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-6 line-clamp-2 flex-grow">
+                  <p className="text-gray-600 text-sm mb-6 line-clamp-2 grow">
                     {noticia.resumoCurto}
                   </p>
-                  
                   <div className="flex items-center text-sm font-bold mt-auto" style={{ color: '#48bab8' }}>
                     Ler artigo completo <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -321,9 +283,6 @@ export function Blog() {
             ))}
           </div>
         </section>
-
-
-        {/* ================= SEÇÃO 2: MERCADO ================= */}
         <section>
           <div className="flex items-center justify-between mb-8 sm:mb-12 pt-12 border-t border-gray-200">
             <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
@@ -331,7 +290,6 @@ export function Blog() {
               Mercado de Precatórios
             </h2>
           </div>
-
           {carregando ? (
             <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100">
               <div className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin mb-4" style={{ borderColor: '#48bab8', borderTopColor: 'transparent' }}></div>
@@ -354,15 +312,13 @@ export function Blog() {
                   <div className="relative h-48 overflow-hidden shrink-0">
                     <img src={artigo.imagem} alt={artigo.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
-
-                  <div className="p-6 flex flex-col flex-grow">
+                  <div className="p-6 flex flex-col grow">
                     <h2 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#48bab8] transition-colors">
                       {artigo.titulo}
                     </h2>
-                    <p className="text-gray-600 text-sm mb-5 line-clamp-3 flex-grow leading-relaxed">
+                    <p className="text-gray-600 text-sm mb-5 line-clamp-3 grow leading-relaxed">
                       {artigo.resumo}
                     </p>
-
                     <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
                       <div className="flex items-center gap-2 text-xs text-gray-500 font-medium">
                         <User className="w-3.5 h-3.5" /> <span>{artigo.autor}</span>
@@ -377,7 +333,6 @@ export function Blog() {
             </div>
           )}
         </section>
-
       </div>
     </div>
   );

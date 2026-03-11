@@ -5,12 +5,7 @@ import { ArrowRight } from 'lucide-react';
 export function Hero() {
   return (
     <section className="relative min-h-[calc(100vh-4rem)] pt-6 md:pt-10 px-4 sm:px-8 pb-0 z-10 bg-[#FDFDFD] flex flex-col overflow-hidden">
-      
-      {/* VOLTAMOS PARA md:flex-row para garantir que na WEB fique lado a lado */}
-      <div className="mx-auto max-w-7xl w-full flex-grow flex flex-col md:flex-row items-stretch justify-between gap-8 lg:gap-16">
-        
-        {/* COLUNA DO TEXTO */}
-        {/* No tablet (md), damos 40% (w-5/12) de espaço pro texto e diminuímos levemente a fonte. No PC (lg), volta a ser 50% (w-1/2) */}
+      <div className="mx-auto max-w-7xl w-full grow flex flex-col md:flex-row items-stretch justify-between gap-8 lg:gap-16">
         <motion.div
           className="flex flex-col justify-center w-full md:w-5/12 lg:w-1/2 order-1 pb-12 md:pb-20"
           initial={{ opacity: 0, x: -50 }}
@@ -18,7 +13,7 @@ export function Hero() {
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-xl mx-auto md:mx-0 text-center md:text-left">
-            <h2 className="text-4xl md:text-4xl lg:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight">
+            <h2 className="text-4xl font-outfit md:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
               Antecipe seus <span className='text-[#48BAB8]'>Precatórios</span> com Segurança
             </h2>
             <p className="text-base md:text-base lg:text-lg text-gray-700 mb-6 sm:mb-8 leading-relaxed">
@@ -38,9 +33,6 @@ export function Hero() {
             </div>
           </div>
         </motion.div>
-
-        {/* COLUNA DA IMAGEM */}
-        {/* No tablet (md), a imagem ganha 60% do espaço (w-7/12) para não ficar espremida! */}
         <motion.div
           className="relative w-full md:w-7/12 lg:w-1/2 order-2 flex justify-center md:justify-end items-end mt-auto"
           initial={{ opacity: 0, x: 50 }}

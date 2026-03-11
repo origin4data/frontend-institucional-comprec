@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { Form } from '../components/Form';
-import logoComprec from 'figma:asset/ecdae11385996d2773bf622e31dbb0a957ef414f.png';
-import logoComprecTexto from 'figma:asset/0da24833eec9795262c879e0ac0539582ae65f6a.png';
+import logoComprec from '../assets/logoNome.png';
+import logoComprecTexto from '../assets/logo.png';
 
 export function Contact() {
   return (
@@ -129,7 +129,16 @@ export function Contact() {
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
-              <Form />
+              <Form dados={{
+                nome: '',
+                whatsapp: '',
+                email: '',
+                tipo: ''
+              }} onChange={function (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void {
+                throw new Error('Function not implemented.');
+              } } onSubmit={function (e: React.FormEvent): void {
+                throw new Error('Function not implemented.');
+              } } isLoading={false} />
             </motion.div>
           </div>
         </div>

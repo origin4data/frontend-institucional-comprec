@@ -4,18 +4,14 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Send, CheckCircle, X } from 'lucide-react';
-
-// Importações do React Hook Form e Zod para a Modal
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../components/ui/form';
 
-// O @ts-ignore faz o TypeScript parar de dar erro na linha do vídeo
 // @ts-ignore
 import videoEquipe from '../assets/comprecmovie.mp4';
 
-// 1. Schema do Zod para a Modal
 const schemaContatoModal = z.object({
   nome: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres.'),
   email: z.string().email('E-mail inválido.'),
@@ -47,7 +43,6 @@ export function About() {
 
   const N8N_WEBHOOK_URL = 'https://webhooks.origindata.com.br/webhook/comprec';
 
-  // Função de envio do formulário
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     try {
@@ -69,7 +64,6 @@ export function About() {
     }
   };
 
-  // Prevenir scroll do body quando a modal estiver aberta
   React.useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = 'hidden';
@@ -84,8 +78,6 @@ export function About() {
   return (
     <>
       <div className="w-full overflow-x-hidden bg-white">
-        
-        {/* CSS Injetado para animações */}
         <style>{`
           .hover-card-pilar {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -95,8 +87,6 @@ export function About() {
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
           }
         `}</style>
-
-        {/* ================= QUEM SOMOS ================= */}
         <section className="py-16 sm:py-24 lg:py-32">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -141,8 +131,6 @@ export function About() {
             </motion.div>
           </div>
         </section>
-
-        {/* ================= COMO CONDUZIMOS (COM VÍDEO DA EQUIPE) ================= */}
         <section className="py-16 sm:py-24 bg-gray-50/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -198,8 +186,6 @@ export function About() {
             </div>
           </div>
         </section>
-
-        {/* ================= NOSSOS PILARES ================= */}
         <section className="py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -220,9 +206,7 @@ export function About() {
                 processo, garantindo clareza, segurança jurídica e respeito à história de cada cliente.
               </p>
             </motion.div>
-
             <div className="grid md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
-              {/* Pilar 1 */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -230,14 +214,14 @@ export function About() {
                 transition={{ duration: 0.5 }}
                 className="hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm h-full"
               >
-                <div className="relative w-full h-72 md:h-80 lg:h-[400px] shrink-0 bg-gray-100 border-b border-gray-100">
+                <div className="relative w-full h-72 md:h-80 lg:h-100 shrink-0 bg-gray-100 border-b border-gray-100">
                   <ImageWithFallback
                     src="https://i.imgur.com/89kldkv.jpeg"
                     alt="Transparência Total"
                     className="w-full h-full object-cover object-[center_top]"
                   />
                 </div>
-                <div className="p-6 lg:p-8 flex flex-col flex-grow bg-white">
+                <div className="p-6 lg:p-8 flex flex-col grow bg-white">
                   <h3 className="text-xl lg:text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
                     Transparência Total
                   </h3>
@@ -252,8 +236,6 @@ export function About() {
                   </div>
                 </div>
               </motion.div>
-
-              {/* Pilar 2 */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -261,14 +243,14 @@ export function About() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm h-full"
               >
-                <div className="relative w-full h-72 md:h-80 lg:h-[400px] shrink-0 bg-gray-100 border-b border-gray-100">
+                <div className="relative w-full h-72 md:h-80 lg:h-100 shrink-0 bg-gray-100 border-b border-gray-100">
                   <ImageWithFallback
                     src="https://i.imgur.com/n7oSuHK.jpeg"
                     alt="Segurança Jurídica"
                     className="w-full h-full object-cover object-[center_top]"
                   />
                 </div>
-                <div className="p-6 lg:p-8 flex flex-col flex-grow bg-white">
+                <div className="p-6 lg:p-8 flex flex-col grow bg-white">
                   <h3 className="text-xl lg:text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
                     Segurança Jurídica
                   </h3>
@@ -284,8 +266,6 @@ export function About() {
                   </div>
                 </div>
               </motion.div>
-
-              {/* Pilar 3 */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -293,14 +273,14 @@ export function About() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="hover-card-pilar flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm h-full"
               >
-                <div className="relative w-full h-72 md:h-80 lg:h-[400px] shrink-0 bg-gray-100 border-b border-gray-100">
+                <div className="relative w-full h-72 md:h-80 lg:h-100 shrink-0 bg-gray-100 border-b border-gray-100">
                   <ImageWithFallback
                     src="https://i.imgur.com/NXAYniX.jpeg"
                     alt="Compromisso"
                     className="w-full h-full object-cover object-[center_top]"
                   />
                 </div>
-                <div className="p-6 lg:p-8 flex flex-col flex-grow bg-white">
+                <div className="p-6 lg:p-8 flex flex-col grow bg-white">
                   <h3 className="text-xl lg:text-2xl font-bold mb-4" style={{ color: '#1e293b' }}>
                     Compromisso
                   </h3>
@@ -316,8 +296,6 @@ export function About() {
             </div>
           </div>
         </section>
-
-        {/* ================= SEÇÃO CTA ================= */}
         <section className="py-16 sm:py-24 w-full" style={{ backgroundColor: '#48bab8' }}>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
@@ -332,8 +310,6 @@ export function About() {
               <p className="text-lg sm:text-xl mb-4 text-gray-900 font-medium">
                 Entre em contato e saiba como podemos ajudar você.
               </p>
-              
-              {/* Botão que agora abre a Modal em vez de redirecionar */}
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="inline-block bg-white px-8 py-4 rounded-xl shadow-md hover:shadow-lg transition-all font-bold text-lg max-w-full cursor-pointer"
@@ -345,11 +321,9 @@ export function About() {
           </div>
         </section>
       </div>
-
-      {/* ========== MODAL DE CONTATO ========== */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
+          <div className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -366,7 +340,6 @@ export function About() {
               >
                 <X className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
-
               {isSuccess ? (
                 <div className="text-center py-8">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
@@ -395,7 +368,6 @@ export function About() {
                   
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                      {/* Campo Nome */}
                       <FormField
                         control={form.control}
                         name="nome"
@@ -418,8 +390,6 @@ export function About() {
                           </FormItem>
                         )}
                       />
-
-                      {/* Campo E-mail */}
                       <FormField
                         control={form.control}
                         name="email"
@@ -443,8 +413,6 @@ export function About() {
                           </FormItem>
                         )}
                       />
-
-                      {/* Campo WhatsApp */}
                       <FormField
                         control={form.control}
                         name="whatsapp"
@@ -475,8 +443,6 @@ export function About() {
                           </FormItem>
                         )}
                       />
-
-                      {/* Campo Tipo de Precatório */}
                       <FormField
                         control={form.control}
                         name="tipo"
@@ -504,7 +470,6 @@ export function About() {
                           </FormItem>
                         )}
                       />
-
                       <button 
                         type="submit" 
                         disabled={isLoading}

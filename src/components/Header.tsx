@@ -8,10 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 
-import logoComprec from 'figma:asset/ecdae11385996d2773bf622e31dbb0a957ef414f.png';
-import logoComprecTexto from 'figma:asset/0da24833eec9795262c879e0ac0539582ae65f6a.png';
+import logoComprec from '../assets/logo.png';
+import logoComprecTexto from '../assets/logoNome.png';
 
-// 1. Schema do Zod para a Modal do Header
 const schemaContatoModal = z.object({
   nome: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres.'),
   email: z.string().email('E-mail inválido.'),
@@ -92,7 +91,6 @@ export function Header({ paginaAtual }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevenir scroll do body quando menu mobile ou modal estiverem abertos
   React.useEffect(() => {
     if (menuMobilAberto || isModalOpen) {
       document.body.style.overflow = 'hidden';
@@ -139,7 +137,6 @@ export function Header({ paginaAtual }: HeaderProps) {
               ))}
             </div>
             <div className="hidden md:block">
-              {/* Botão que agora abre a Modal (Desktop) */}
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="bg-emerald-800 text-white px-6 py-2 rounded-lg hover:bg-emerald-900 transition-colors font-medium"
@@ -180,7 +177,6 @@ export function Header({ paginaAtual }: HeaderProps) {
             </div>
           </div>
         </nav>
-        
         <AnimatePresence>
           {menuMobilAberto && (
             <>
@@ -219,7 +215,6 @@ export function Header({ paginaAtual }: HeaderProps) {
                       </motion.a>
                     ))}
                   </div>
-                  {/* Botão que agora abre a Modal (Mobile) */}
                   <motion.button
                     onClick={() => {
                       setMenuMobilAberto(false);
@@ -238,11 +233,9 @@ export function Header({ paginaAtual }: HeaderProps) {
           )}
         </AnimatePresence>
       </header>
-
-      {/* ========== MODAL DE CONTATO ========== */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
+          <div className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -259,7 +252,6 @@ export function Header({ paginaAtual }: HeaderProps) {
               >
                 <X className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
-
               {isSuccess ? (
                 <div className="text-center py-8">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
@@ -285,10 +277,8 @@ export function Header({ paginaAtual }: HeaderProps) {
                 <>
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Fale Conosco</h3>
                   <p className="text-sm text-gray-600 mb-6">Preencha os dados abaixo e entraremos em contato.</p>
-                  
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                      {/* Campo Nome */}
                       <FormField
                         control={form.control}
                         name="nome"
@@ -311,8 +301,6 @@ export function Header({ paginaAtual }: HeaderProps) {
                           </FormItem>
                         )}
                       />
-
-                      {/* Campo E-mail */}
                       <FormField
                         control={form.control}
                         name="email"
@@ -336,8 +324,6 @@ export function Header({ paginaAtual }: HeaderProps) {
                           </FormItem>
                         )}
                       />
-
-                      {/* Campo WhatsApp */}
                       <FormField
                         control={form.control}
                         name="whatsapp"
@@ -368,8 +354,6 @@ export function Header({ paginaAtual }: HeaderProps) {
                           </FormItem>
                         )}
                       />
-
-                      {/* Campo Tipo de Precatório */}
                       <FormField
                         control={form.control}
                         name="tipo"
@@ -397,7 +381,6 @@ export function Header({ paginaAtual }: HeaderProps) {
                           </FormItem>
                         )}
                       />
-
                       <button 
                         type="submit" 
                         disabled={isLoading}

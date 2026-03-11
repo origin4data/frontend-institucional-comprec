@@ -1,6 +1,6 @@
 import React from 'react';
 import { Phone, Mail, Linkedin, Instagram, Youtube, Clock, Shield } from 'lucide-react';
-import logoComprec from 'figma:asset/67596b60077a129b8cb18eb43f53b80c352eee3a.png';
+import logoComprec from '../assets/logo.png';
 
 export function Footer() {
   return (

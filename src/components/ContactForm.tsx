@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Send, MessageCircle, Phone, CheckCircle, X } from 'lucide-react';
 import { motion } from 'motion/react';
-import logoWhite from '@/assets/67596b60077a129b8cb18eb43f53b80c352eee3a.png';
+import logoWhite from '@/assets/logoNomeWhite.png';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
