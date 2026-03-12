@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import heroImage from '@/assets/miguel_comprec.png';
+import heroImage from '@/assets/miguel_cinza.png';
 import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
